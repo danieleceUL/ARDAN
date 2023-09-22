@@ -64,7 +64,7 @@ Sample Heatmap results for MTF50 per 5x8 region of spatial domain:
 
 ![spa dist](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/sample_results/surface_plot_horizontal_MTF50_mean.png)
 
-Sample Results:
+Sample Results (Note: MTF on y-axis):
 
 ![mtf measure](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/sample_results/mean_horizontal_MTFs_per_Annuli.png)
 
