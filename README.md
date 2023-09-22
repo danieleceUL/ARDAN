@@ -11,7 +11,7 @@ After Data Convexity:
 
 # Data Convexity
 Data convexity detects and filters out drastic slope changes in measurements.
-Eliminates measurements with behaviour such as the green line of No.11:
+Eliminates measurements with behaviour such as line No. 11 :
 ![data convexity](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/00000_FV_NS_SFR_Horizontal_SFR.jpg)
 
 After Data Convexity is applied to measurements:
