@@ -1,0 +1,27 @@
+function [croppedMask]=customROIMask(img, roi)
+% Custom Region-of-Interest (ROI) Mask function masks and crops part of the
+% image in which slanted edges are to be found
+%
+% Input:
+%    img:       The Image.
+%    roi
+%
+% Output:
+%    BWh:       Horizontal Edge Location Binary Image
+%    BWv:       Vertical Edge Location Binary Image
+%    Mh:        Horizontal Edge Magnitude Image
+%    Mv:        Vertical Edge Magnitude Image
+%
+
+% Author: D. Jakab 2023, University of Limerick
+
+%--------------------------------------------------------------------------
+% Convert img to grayscale and double
+mask = createMask(roi, tt_img);
+imshow(mask)
+uInt8ImageMask = uint8(255 * mask);
+column1 = find(sum(mask, 1), 1, 'first');
+column2 = find(sum(mask, 1), 1, 'last');
+row1 = find(sum(mask, 2), 1, 'first');
+row2 = find(sum(mask, 2), 1, 'last');
+croppedMask = uInt8ImageMask(row1:row2, column1:column2);
