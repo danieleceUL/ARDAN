@@ -26,6 +26,7 @@ For more information see:
 Current algorithm has GPU hardware accelereation support for 4 workers using parallel pooling.
 Code automatically detects whether there is GPU/CPU only on system and executes code according to step.
 GPU support recommended for large datasets with 10+ images.
+
 Sample code showing GPU detection:
 
 ![gpu acc](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/gpu-acc.png)
