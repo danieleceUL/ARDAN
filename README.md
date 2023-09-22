@@ -2,6 +2,13 @@
 NS-SFR with sfrmat5 and custom data convexity between first maximum and first minimum of SFR measurements.
 Regional masks created for KITTI, Woodscape, KITTI-360 and LMS.
 
+# Region of Interest (ROI) Selection on Front View Woodscape
+Before Data Convexity:
+![roi select](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/00000_FV_H.png)
+
+After Data Convexity:
+![roi select](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/00000_FV_H_data_convex.png)
+
 # Data Convexity
 Data convexity detects and filters out drastic slope changes in measurements.
 Eliminates measurements with behaviour such as the green line of No.11:
