@@ -66,5 +66,5 @@ Sample Heatmap results for MTF50 per 5x8 region of spatial domain:
 
 Sample Results:
 
-![MTF measure](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/mean_horizontal_MTFs_per_Annuli.png)
+![MTF measure](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/sample_results/mean_horizontal_MTFs_per_Annuli.png)
 
