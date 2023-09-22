@@ -52,7 +52,8 @@ Sample code showing GPU detection:
 Results and CSV files will be saved automatically in the target directory and execution time depends on the number of test images present in the data folder.
 
 ## Part 2
-. On executing code  'SFR_roi_proposal.m' in Matlab, the following GUI box appears for user. Please choose the target directory in which results are saved for Radial Distance and Heatmap analysis:
+. On executing code 'SFR_roi_analysis.m' in Matlab, the following GUI box appears for user. Please choose the target directory in which results are saved for Radial Distance and Heatmap analysis:
+
 ![target folder](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/select-results-folder.png)
 
 Sample Spatial Distribution with Radial Distances:
