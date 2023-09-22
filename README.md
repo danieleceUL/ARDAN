@@ -58,11 +58,11 @@ Results and CSV files will be saved automatically in the target directory and ex
 
 Sample Spatial Distribution with Radial Distances:
 
-![spa dist](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/spatial_dist_horizontal_ROIs.png)
+![spa dist](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/sample_results/spatial_dist_horizontal_ROIs.png)
 
 Sample Heatmap results for MTF50 per 5x8 region of spatial domain:
 
-![spa dist](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/surface_plot_horizontal_MTF50_mean.png)
+![spa dist](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/sample_results/surface_plot_horizontal_MTF50_mean.png)
 
 Sample Results:
 
