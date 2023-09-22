@@ -33,5 +33,37 @@ Sample code showing GPU detection:
 
 ![gpu acc](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/gpu-acc-2.png)
 
-## Major changes include
-Capacity to read in masked areas of a natural scene. Tested under conditions of a test chart as shown above.
+# Sample Run
+
+## Part 1
+
+1. On executing code  'SFR_roi_proposal.m' in Matlab, the following GUI box appears for user, please navigate and open appropriate directory with images:
+
+![data](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/folder-with-data.png)
+
+2. Choose appropriate regional mask for KITTI, Woodscape, SynWoodscape or LMS datasets
+
+![masks](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/regional-masks.png)
+
+3. Choose destination directory in which results should be saved:
+
+![target folder](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/folder-with-results.png)
+
+Results and CSV files will be saved automatically in the target directory and execution time depends on the number of test images present in the data folder.
+
+## Part 2
+. On executing code  'SFR_roi_proposal.m' in Matlab, the following GUI box appears for user. Please choose the target directory in which results are saved for Radial Distance and Heatmap analysis:
+![target folder](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/select-results-folder.png)
+
+Sample Spatial Distribution with Radial Distances:
+
+![spa dist](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/spatial_dist_horizontal_ROIs.png)
+
+Sample Heatmap results for MTF50 per 5x8 region of spatial domain:
+
+![spa dist](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/surface_plot_horizontal_MTF50_mean.png)
+
+Sample Results:
+
+![MTF measure](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/mean_horizontal_MTFs_per_Annuli.png)
+
