@@ -2,13 +2,10 @@ clear variables
 close all
 clc
 
-%data = readmatrix([pathName '\' fileName]);
 % debug hardcode
 set(0, 'DefaultFigureVisible', 'off');
 %% select input file to read
-%[fileName, pathName] = uigetfile("*.csv", "Read in results csv files");
 selpath = uigetdir([], 'Select folder containing CSV files');
-%impath = uigetdir([], 'Select folder of processed dataset');
 tt_n = 'tt_img';
 imFiles = [...
     dir(fullfile([selpath filesep [tt_n '.jpg']]));
@@ -20,24 +17,18 @@ imFiles = [...
     dir(fullfile([selpath filesep [tt_n '.raw']]));
     ];
 tt_img = imread(fullfile(imFiles.folder, imFiles.name));
-%csv = dir(fullfile([selpath filesep '*.csv']));
-%dataH = readmatrix('/home/daniel/OneDrive/daniel_dev/NSSFR-GUI/SFR_response_exp_6/exp_3/horizontal.csv');
-%dataV = readmatrix('/home/daniel/OneDrive/daniel_dev/NSSFR-GUI/SFR_response_exp_6/exp_3/vertical.csv');
 dataH = readmatrix([selpath filesep 'horizontal.csv']);
 dataV = readmatrix([selpath filesep 'vertical.csv']);
 tic
 disp('Processing...');
 
-%dataH = readmatrix('D:\Woodscape\dataset\rgb_images\NS-SFR_analysis\horizontal_MVL.csv');
-%dataV = readmatrix('D:\Woodscape\dataset\rgb_images\NS-SFR_analysis\vertical_MVL.csv');
-
-MTFdataH = dataH(:,14:end); %sfrmat4 starts at 14
+MTFdataH = dataH(:,14:end); %sfrmat4/5 measurements start at column 14
 %H_locations = dataH(:,4:5);
 
-MTFdataV = dataV(:,14:end);
+MTFdataV = dataV(:,14:end); %sfrmat4/5 measurements start at column 14
 %V_locations = dataV(:,4:5);
 
-MTF50dataH = dataH(:,13); % DJ - sfrmat4 MTF at column 13.
+MTF50dataH = dataH(:,13); % DJ - sfrmat4/5 MTF50 at column 13.
 MTF50dataV = dataV(:,13);
 fList = [];
 
