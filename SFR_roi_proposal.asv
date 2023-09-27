@@ -22,8 +22,8 @@ raw = 0;
 % set polynomial fit for MTF
 npoly=5;
 
-% set limit on energy above 0.5 cy/px
-hfMax = 0.2;
+% set limit on energy above 0.7 cy/px
+hfMax = 13;
 
 % define limit for max edge angle
 %maxAngle = 45;
@@ -291,12 +291,10 @@ parfor A=1:numel(g)
                         bad_mtf_bd = 0; % flag if bad MTF found - set to 1
 
                         hfRange = find(uq>=0.5);
-                        %uqRange = uq(hfRange);
-
-                        fMag = f(hfRange);
+                        hfMag = f(hfRange);
                         %integrate area under curve over Nyquist 0.5 and
                         %1.0 cy/pxl
-                        hfArea = trapz((0.5:0.01:1), fMag);
+                        hfArea = trapz(hfRange, hfMag);
 
                         %apply addition constraints to results
                         [nmax,maxAt,maxValues,nmin,minAt,minValues, minAtIdx, maxAtIdx] = peakFinder(f,uq);
