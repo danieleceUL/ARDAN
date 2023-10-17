@@ -3,7 +3,7 @@ close all;
 clc;
 numWorkers = 4;
 debug = 1;
-set(0, 'DefaultFigureVisible', 'on');
+set(0, 'DefaultFigureVisible', 'off');
 %% configure detection parameters
 ST   = 0.02;%0.02, 0.04
 % ESF min width for system (pixels) - Change this threshold based on
@@ -73,8 +73,8 @@ end
 if selmsk == 0
     %imshow(tt_img);
     h = images.roi.Rectangle(gca,'Position',[0,0, size(tt_img, 2), size(tt_img, 1)]); % use no mask
-    save('./masks/nm.mat', 'h');
-    roi = load('./masks/nm.mat');
+    save('./no-mask.mat', 'h');
+    roi = load('./no-mask.mat');
     disp('dataset - no mask selected (using image size as mask)')
     roi = roi.h;
 else
@@ -120,6 +120,7 @@ parpool(numWorkers)
 imwrite(tt_img, fullfile(strcat(resultdir,filesep,'tt_img.png')));
 [croppedMask,tt_img] = customROIMask(tt_img, roi);
 %imshow(croppedMask)
+save(strcat(resultdir,filesep,'roi.mat'), 'roi');
 imwrite(croppedMask, fullfile(strcat(resultdir,filesep,'ROIMask.png')));
 imwrite(tt_img, fullfile(strcat(resultdir,filesep,'cropped_tt_img.png')));
 parfor A=1:numel(g)
@@ -294,14 +295,14 @@ parfor A=1:numel(g)
                         %uqRange = uq(hfRange);
 
                         fMag = f(hfRange);
-                        %integrate area under curve over Nyquist 0.5 and
+                        %integrate area under curve over Nyquist 0.5 cy/px and
                         %1.0 cy/pxl
                         hfArea = trapz((0.5:0.01:1), fMag);
 
                         %apply addition constraints to results
-                        [nmax,maxAt,maxValues,nmin,minAt,minValues, minAtIdx, maxAtIdx] = peakFinder(f,uq);
-                        y_min = interp1(uq, f, minAt);
-                        y_max = interp1(uq, f, maxAt);
+                        %[nmax,maxAt,maxValues,nmin,minAt,minValues, minAtIdx, maxAtIdx] = peakFinder(f,uq);
+                        %y_min = interp1(uq, f, minAt);
+                        %y_max = interp1(uq, f, maxAt);
                         [nmax_c,maxAt_c,maxValues_c,nmin_c,minAt_c,minValues_c, minAtIdx_c, maxAtIdx_c] = peakFinder(mq,uq);
                         y_min_c = interp1(uq, mq, minAt_c);
                         y_max_c = interp1(uq, mq, maxAt_c);
@@ -316,8 +317,8 @@ parfor A=1:numel(g)
                                 break;
                             end
                         end
-                        %remove local minima in measurements above 0.4
-                        %below 0.5 cy/px
+                        %remove local minima in measurements above 0.4 SFR
+                        %below Nyquist 0.5 cy/px
                         for yi = 1:length(y_min_c)
                             if minAtIdx_c(yi) < 50
                                 if y_min_c(yi) > 0.4
@@ -443,13 +444,10 @@ parfor A=1:numel(g)
                             switch O
                                 case 1
                                     NSSFRh = R;
-                                    %fid = fopen([resultdir '\' 'horizontal.csv'],"a");
                                     
                                     b = ROIsH{a,4};
                                     % BD: re-orientate horizontal
                                     % coordinates for consistency
-                                    % note: this is a horrible kludge.
-                                    % I am ashamed...
                                     temp = zeros(1,4);
                                     temp(1) = cols - b(2) - b(4);
                                     temp(2) = b(1);
@@ -491,21 +489,28 @@ parfor A=1:numel(g)
                                         fprintf(fid_h,',%f',mq(fi));
                                     end
                                     fprintf(fid_h,'\n');
-                                    %fclose(fid);
+                                    
 
                                 case 2
                                     NSSFRv = R;
                                     %fid = fopen([resultdir '\' 'vertical.csv'],"a");
                                     b = ROIsV{a,4};
                                     c = ROIsV{a,5};
-                                    d = ROIsV{a,6}; 
+                                    
+                                    
+                                    d = ROIsV{a,6};
+
+                                    %need to find actual coordinates of
+                                    %vertical ROIs relative to the image
+                                    %not relative to the mask
+                                    %if the mask and image sizes are
+                                    %the same nothing will change.
+                                    d = [d(1) + (cols - size(tt_img, 2)) d(2)] 
                                     
                                     % write filename
                                     fprintf(fid_v,"%s",imFiles(A,1).name);
                                     fprintf(fid_v,",%d", size(imgLin,1));
                                     fprintf(fid_v,",%d", size(imgLin,2));
-%                                     rectangle("Position",b,"EdgeColor",[0 1 0])
-%                                     plot(d(1),d(2),'gx')
                                     
                                     % write bounding box
                                     for bi = 1:length(b)

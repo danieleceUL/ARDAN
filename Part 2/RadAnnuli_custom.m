@@ -1,4 +1,4 @@
-function [R, RD] = RadAnnuli_custom(num, ROImask, tt_img)
+function [R, RD] = RadAnnuli_custom(num, roi, tt_img)
 % RadAnnuli - Segments the image frame into even area Radial Annuli
 % Input:
 %   im       Image frame to segment
@@ -19,7 +19,7 @@ function [R, RD] = RadAnnuli_custom(num, ROImask, tt_img)
 
 % Set radius list (one less to avoid outermost segment - aperture)
 R = zeros(1,(num-1));
-mask = ROImask;
+mask = roi.h;
 ml = logical(mask);
 A = bwarea(mask);
 %a = A/num;
@@ -77,8 +77,8 @@ end
 hold off;
 
 title('Custom Radial Annuli restricted to ROI mask', 'FontSize', 12);
-xlabel('pxls (width)');
-ylabel('pxls (height)');
+xlabel('pixels (width)');
+ylabel('pixels (height)');
 
 RD = zeros(Y, X); 
 [columnsInImage, rowsInImage] = meshgrid(1:X, 1:Y);

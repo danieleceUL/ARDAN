@@ -41,7 +41,7 @@ plot(uq,mean(MTFdataH));
 plot(uq,mean(MTFdataV));
 xlabel('cy/px')
 legend('Horizontal','Vertical', 'FontSize', 5)
-xlim([0 1])
+xlim([0 0.5])
 
 
 %% plot MTF results by ROI
@@ -169,8 +169,8 @@ hold on;
 plot(uq, mean(MTFc, 1), 'g', 'DisplayName', 'centre');
 plot(uq, mean(MTFm, 1), 'b', 'DisplayName', 'middle');
 plot(uq, mean(MTFe, 1), 'r', 'DisplayName', 'edge');
-legend(legendUnq(h), 'Location', 'northeast', 'FontSize', 5)
-xlim([0 1])
+legend(legendUnq(h), 'Location', 'northeast', 'FontSize', 10)
+xlim([0 0.5])
 xlabel('cy/px')
 
 %initialize mean distribution for spatial regions
@@ -245,8 +245,8 @@ hold on;
 plot(uq, mean(MTFc, 1), 'g', 'DisplayName', 'centre');
 plot(uq, mean(MTFm, 1), 'b', 'DisplayName', 'middle');
 plot(uq, mean(MTFe, 1), 'r', 'DisplayName', 'edge');
-legend(legendUnq(h), 'Location', 'northeast', 'FontSize', 5)
-xlim([0 1])
+legend(legendUnq(h), 'Location', 'northeast', 'FontSize', 10)
+xlim([0 0.5])
 xlabel('cy/px')
 %% plot all ROI curves in heatmap
 %initialize approx. locations of heatmap regions in annuli
@@ -297,7 +297,7 @@ for i = 1:ny
     end
 end
 legend(legendUnq(h), 'Location', 'northeast', 'FontSize', 5)
-xlim([0 1])
+xlim([0 0.5])
 xlabel('cy/px')
 
 % plot spatial distribution of Horizontal heatmap regions
@@ -365,7 +365,7 @@ for i = 1:ny
     end
 end
 legend(legendUnq(h), 'Location', 'northeast', 'FontSize', 5)
-xlim([0 1])
+xlim([0 0.5])
 xlabel('cy/px')
 
 %% calculate mean MTF50, plot heat map
