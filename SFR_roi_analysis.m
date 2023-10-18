@@ -22,14 +22,24 @@ dataV = readmatrix([selpath filesep 'vertical.csv']);
 tic
 disp('Processing...');
 
-MTFdataH = dataH(:,14:end); %sfrmat4/5 measurements start at column 14
+%check if extra column exists for both MTF10 and MTF50 columns
+%if MTF10 exists take consecutive columns
+if (size(dataH, 2) == 115) && (size(dataV, 2) == 115)
+    MTF_start = 15;
+    MTF50 = 14;
+    MTF10 = 13;
+else
+    MTF_start = 14;
+    MTF50 = 13;
+end
+
+MTFdataH = dataH(:,MTF_start:end); %sfrmat4/5 measurements start at column 14
+MTFdataV = dataV(:,MTF_start:end); %sfrmat4/5 measurements start at column 14
+MTF50dataH = dataH(:,MTF50); % DJ - sfrmat4/5 MTF50 at column 13.
+MTF50dataV = dataV(:,MTF50);
+
 %H_locations = dataH(:,4:5);
-
-MTFdataV = dataV(:,14:end); %sfrmat4/5 measurements start at column 14
 %V_locations = dataV(:,4:5);
-
-MTF50dataH = dataH(:,13); % DJ - sfrmat4/5 MTF50 at column 13.
-MTF50dataV = dataV(:,13);
 fList = [];
 
 %% plot mean of all MTF plots

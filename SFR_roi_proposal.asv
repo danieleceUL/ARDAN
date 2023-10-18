@@ -464,14 +464,16 @@ parfor A=1:numel(g)
                                     % first case: mask width is less
                                     % than image width but maximum
                                     % coordinate is equal to image width
-                                    if (min(roi.Position(:, 1))) ~= 0 && (max(roi.Position(:,1)) == cols)
-                                        adj_h = adj_h + (cols - size(tt_img, 2))
+                                    %if (min(roi.Position(:, 1))) ~= 0 && (max(roi.Position(:,1)) == cols)
+                                    %    adj_h = adj_h + (cols - size(tt_img, 2))
+                                    %end
+                                    % Mask width is less
+                                    % than image width but maximum
+                                    % coordinate is not equal to image width
+                                    if (min(roi.Position(:, 1))) ~= 0 && (max(roi.Position(:,1)) < cols)
+                                        adj_h = adj_h - (cols - max(roi.Position))
                                     end
 
-                                    %second case: adjust coordinates to y-axis
-                                    if (min(roi.Position(:, 1)) == 0)
-                                        adj_h = adj_h - (cols - size(tt_img, 2))
-                                    end
                                     d = [(adj_h) (b(2)+b(4)/2)];
 
                                     % write filename
@@ -522,6 +524,9 @@ parfor A=1:numel(g)
                                     %the same nothing will change.
                                     if (min(roi.Position(:, 1))) ~= 0 && (max(roi.Position(:,1)) == cols)
                                         adj_h = d(1) + (cols - size(tt_img, 2))
+                                    end
+                                    if (min(roi.Position(:, 1))) ~= 0 && (max(roi.Position(:,1)) < cols)
+                                        adj_h = d(1) + (cols - size(tt_img, 2)) - (cols - max(roi.Position))
                                     end
 
                                     d = [adj_h d(2)] 
