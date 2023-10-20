@@ -25,10 +25,6 @@ npoly=5;
 % set limit on energy above 0.5 cy/px
 hfMax = 0.2;
 
-% define limit for max edge angle
-%maxAngle = 45;
-%minAngle = 5;
-
 %use data convexity check
 dcheck = 1;
 

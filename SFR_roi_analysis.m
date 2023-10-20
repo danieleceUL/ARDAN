@@ -82,15 +82,6 @@ if isempty(tt_img)
     tt_img = ROImask;
 end
 
-
-% if size(ROImask, 1:2) ~= size(tt_img, 1:2)
-% 
-%     diff = size(tt_img, 2) - size(ROImask, 2);
-%     ROImask = ones(diff, size(ROImask, 2)) + logical(ROImask);
-% end
-
-%ROImask = ~ROImask;
-%figure(); bwperim(ROImask);
 %[Rad, RD] = RadAnnuli(MTF_Results{1, 2} , RDseg); % DJ replace with own tailored RadDist/annuli
 [Rad, RD] = RadAnnuli_custom(RDseg, roi, tt_img);
 
