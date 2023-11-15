@@ -1,0 +1,655 @@
+%% read in image files
+% Read image file names from user Folder
+function nssfr_exp(selpath, subdir, selmsk, mskpath, resultdir, numWorkers, debug, ST, esfW, ...
+    minEdge, maxEdge, Con, raw, npoly, hfMax, dcheck, sfrv)
+    imFiles = [...
+        dir(fullfile([selpath filesep subdir filesep '*.jpg']));
+        dir(fullfile([selpath filesep subdir filesep '*.jpeg']));
+        dir(fullfile([selpath filesep subdir filesep '*.png']));
+        dir(fullfile([selpath filesep subdir filesep '*.tif']));
+        dir(fullfile([selpath filesep subdir filesep '*.tiff']));
+        dir(fullfile([selpath filesep subdir filesep '*.dcg']));
+        dir(fullfile([selpath filesep subdir filesep '*.raw']));
+        ];
+    
+    % imnumber stores the number of files that have been read
+    imNumber=size(imFiles,1);
+    if imNumber==0
+       disp('No Images found in selected folder');
+       beep
+       return
+    end
+    %initialize default
+    %get test image
+    tt_img = imread(fullfile(imFiles(1).folder, imFiles(1).name));
+    if contains(imFiles(1).name, 'FV')
+        pers = 'FV';
+    elseif contains(imFiles(1).name, 'MVL')
+        pers = 'MVL';
+    elseif contains(imFiles(1).name, 'MVR')
+        pers = 'MVR';
+    elseif contains(imFiles(1).name, 'RV')
+        pers = 'RV';
+    else
+        pers = 'NP'; % indicates no perspective found
+    end
+    
+    if selmsk == 0
+        %imshow(tt_img);
+        h = images.roi.Rectangle(gca,'Position',[0,0, size(tt_img, 2), size(tt_img, 1)]); % use no mask
+        save('./no-mask.mat', 'h');
+        roi = load('./no-mask.mat');
+        disp('dataset - no mask selected (using image size as mask)')
+        roi = roi.h;
+    else
+        roi = load([mskpath filesep selmsk]);
+        roi = roi.h;
+    end
+    disp(['Number of Detected images = ' num2str(imNumber)]);
+    
+    exp_repo = dir(resultdir);
+    isub =[exp_repo(:).isdir];
+    exps = {exp_repo(isub).name};
+    exps(ismember(exps,{'.','..'})) = [];
+    if isempty(exps) == 0
+        max_fn = 1;
+        for n=1:size(exps, 2)
+            fn = exps{:,n};
+            num = sscanf(fn, 'exp_%d');
+            if num > max_fn
+                max_fn = num;
+            end
+        end
+        max_fn = max_fn + 1;
+        exp_name = strcat('exp_', num2str(max_fn), '_', string(pers), ...
+            '_', num2str(imNumber), '_', sfrv);
+        f = strcat(resultdir,filesep,string(exp_name));
+        if exist(f, 'dir')
+           rmdir(f, 's')
+        end
+        mkdir(resultdir, exp_name)
+    else
+        imN = num2str(imNumber);
+        exp_name = strcat('exp_1_', string(pers), '_', imN, '_', sfrv);
+        mkdir(resultdir, exp_name)
+    end
+    resultdir = strcat(resultdir, filesep, string(exp_name));
+    startIdx = 1;
+    g = gpuArray(startIdx:imNumber);
+    parpool(numWorkers)
+    %imshow(tt_img)
+    imwrite(tt_img, fullfile(strcat(resultdir,filesep,'tt_img.png')));
+    [croppedMask,tt_img] = customROIMask(tt_img, roi);
+    %imshow(croppedMask)
+    save(strcat(resultdir,filesep,'roi.mat'), 'roi');
+    imwrite(croppedMask, fullfile(strcat(resultdir,filesep,'ROIMask.png')));
+    imwrite(tt_img, fullfile(strcat(resultdir,filesep,'cropped_tt_img.png')));
+    parfor A=1:numel(g)
+    %for A=1:numel(g)
+        t = getCurrentTask();
+        fname_h = append('horizontal_',num2str(t.ID),'.csv');
+        fname_v = append('vertical_',num2str(t.ID),'.csv');
+    %     fname_h = append('horizontal.csv');
+    %     fname_v = append('vertical.csv');
+        fh = append(resultdir,filesep,fname_h);
+        fv = append(resultdir,filesep,fname_v);
+        % open the files
+        fid_h = fopen(fh,"a");
+        fid_v = fopen(fv,"a");
+    
+        % Display Progress  
+        Waitbartex=['Processing Image...' num2str(A) filesep num2str(imNumber)];
+        disp(Waitbartex);
+    
+        img = imread(fullfile(imFiles(A).folder, imFiles(A).name));
+        
+        [rows, cols, chans] = size(img);
+        if size(img, 3) == 3
+            img=rgb2gray(img);
+        end
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        %%%%%%%%%%%% ----- Mask and Crop Perspectives ----- %%%%%%%%%%%%%%%
+        %   DJ - Mask each image with custom mask and crop to mask
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        [croppedMask,img] = customROIMask(img, roi);
+        maskedImagePerim = bwperim(croppedMask);
+        
+        [BWh, BWv, Mh, Mv, SEh, SEv]=findEdge(img, maskedImagePerim, ST, esfW, minEdge);
+        
+    
+        % isolate ROIs
+        ROIsH=ROIisolate(rot90(img), BWh, Mh, SEh, Con, maxEdge);
+        ROIsV=ROIisolate(img, BWv, Mv, SEv, Con, maxEdge);
+    
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        %%%%%%%%%%%%%%%%%% ----- MEASURE NS-SFR ----- %%%%%%%%%%%%%%%%%%%%%
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % frequency range
+        uq=(0:0.01:1.00)';
+        %uq=(0:0.01:0.50)';
+        % 
+        
+        if debug
+            f1 = figure(1);
+            set(f1, 'Visible', 'off');
+            f2 = figure(2);
+            set(f2, 'Visible', 'off');
+            f3 = figure(3);
+            set(f3, 'Visible', 'off');
+            f4 = figure(4);
+            set(f4, 'Visible', 'off');
+            fig_exist = zeros(1,4);
+            [h,~] = size(ROIsH);
+            ROIsH_mat = [];
+            for k = 1:h
+                if ~isempty(ROIsH{k,4})
+                    ROIsH_mat(k,:) = cell2mat(ROIsH(k,4));
+                end
+            end
+    
+            if ~isempty(ROIsH_mat)
+                set(0, 'currentfigure', f1);
+                imshow(rot90(img)) % BD- printing using green rectangles ROIs
+                hold on
+                [h,~] = size(ROIsH_mat);
+                for k = 1 : h
+                    if ROIsH_mat(k,3)<2 || ROIsH_mat(k,4)<0
+                        continue
+                    else
+                        set(0, 'currentfigure', f1);
+                        rectangle('Position', [ROIsH_mat(k,1),ROIsH_mat(k,2),ROIsH_mat(k,3),ROIsH_mat(k,4)],...
+                            'EdgeColor','g','LineWidth',1.5 );
+                        text('Position', [ROIsH_mat(k,1) ROIsH_mat(k,2)],'string',['\leftarrow ' num2str(k)],...
+                            'Color', 'g', 'LineWidth',3, 'FontSize', 12);
+                    end
+                end
+                camroll(-90)
+                set(gcf, 'Position', [0 0 size(img,2) size(img, 1)]);
+                hold off
+                fig_exist(1,1) = 1;
+            end
+    
+            [h,w] = size(ROIsV);
+            ROIsV_mat = [];
+            for k = 1:h
+                if ~isempty(ROIsV{k,4})
+                    ROIsV_mat(k,:) = cell2mat(ROIsV(k,4));
+                end
+            end
+    
+    
+            if ~isempty(ROIsV_mat)
+                [h,w] = size(ROIsV_mat);
+                set(0, 'currentfigure', f2);
+                imshow(img) %BD - printing using green rectangles ROIs
+                hold on
+                for k = 1 : h
+                    if ROIsV_mat(k,3)<2 || ROIsV_mat(k,4)<2
+                        continue
+                    else
+                        set(0, 'currentfigure', f2);
+                        rectangle('Position', [ROIsV_mat(k,1),ROIsV_mat(k,2),ROIsV_mat(k,3),ROIsV_mat(k,4)],...
+                            'EdgeColor','g','LineWidth',1.5 );
+                        text('Position',[ROIsV_mat(k,1)+ROIsV_mat(k,3) ROIsV_mat(k,2)],'string',['\leftarrow ' num2str(k)],...
+                            'Color', 'g', 'LineWidth',3, 'FontSize', 12);
+                    end
+                end
+                hold off
+                fig_exist(1,2) = 1;
+            end
+        end
+        imgLin = rgb2lin(img,'ColorSpace', 'adobe-rgb-1998');
+        max_y = 0;
+        for O=1:2
+            switch O
+                case 1 
+                    R = cell(size(ROIsH,1), 8);
+                    r = ROIsH;
+                    imgLin=rot90(imgLin);
+                case 2
+                    R = cell(size(ROIsV,1), 8);
+                    r = ROIsV;
+                    %imgLin=imgLin;
+            end
+            for a = 1:size(R,1)
+                if ~isempty(r{a,1})
+                    if size(r{a,1},3)==3
+                        ROI=rgb2gray(r{a,1});
+                    else
+                        ROI = r{a,1};
+                    end
+                    mask = r{a,3};
+                    %check Canny is at end of ROI
+                    yend=find(r{a,2}(end,:)==1, 1);
+                    if isempty(yend)
+                        ROI=ROI(1:end-1,:);
+                        mask=mask(1:end-1,:);
+                    end
+    
+                    [~, dat, ~, freqval, ~, R{a,2}, ~, ~, ~, R{a,6}, R{a,7}, ~] =...
+                        sfrmat5(1, 1, ROI, mask, npoly, 0, [.299, .587, .114]); %using tukey window and default weight
+    
+                    angle = R{a,6};
+    
+                    if ~isempty(dat)
+                        if ~isnan(dat(:,end))
+                       
+                            R{a,3}= RadialDist(r{a,4}, [size(imgLin,2), size(imgLin,1)]);
+        
+                            % ESF FWHM
+                            R{a,4}=LSFfwhm(R{a,2});
+    
+                            if raw==0
+                                mq=interp1(dat(:,1), dat(:,end), uq, 'pchip');
+                            else
+                                % Half the Frquency - pixels 2x apart
+                                mq=interp1(dat(:,1)/2, dat(:,end), uq, 'pchip');
+                            end
+                            % Fitting 5th Order Polynomial
+                            p = polyfit(uq,mq,4);
+                            f = polyval(p,uq);
+                            %Fitting Error
+                            FE=abs(mq-f);
+                            bad_mtf_bd = 0; % flag if bad MTF found - set to 1
+    
+                            hfRange = find(uq>=0.5);
+                            %uqRange = uq(hfRange);
+    
+                            fMag = f(hfRange);
+                            %integrate area under curve over Nyquist 0.5 cy/px and
+                            %1.0 cy/pxl
+                            hfArea = trapz((0.5:0.01:1), fMag);
+    
+                            %apply addition constraints to results
+                            %[nmax,maxAt,maxValues,nmin,minAt,minValues, minAtIdx, maxAtIdx] = peakFinder(f,uq);
+                            %y_min = interp1(uq, f, minAt);
+                            %y_max = interp1(uq, f, maxAt);
+                            [nmax_c,maxAt_c,maxValues_c,nmin_c,minAt_c,minValues_c, minAtIdx_c, maxAtIdx_c] = peakFinder(mq,uq);
+                            y_min_c = interp1(uq, mq, minAt_c);
+                            y_max_c = interp1(uq, mq, maxAt_c);
+                            
+                            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                            %DJ - filtering out bad ROI selection
+                            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+                            for yi=1:size(maxValues_c(:))
+                                if maxValues_c(yi) > 1.4
+                                    bad_mtf_bd = 1;
+                                    break;
+                                end
+                            end
+                            %remove local minima in measurements above 0.4 SFR
+                            %below Nyquist 0.5 cy/px
+                            for yi = 1:length(y_min_c)
+                                if minAtIdx_c(yi) < 50
+                                    if y_min_c(yi) > 0.4
+                                        bad_mtf_bd = 1;
+                                        break;
+                                    end
+                                end
+                            end
+    
+                            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                            % Check for data Convexity to the between first local maximum and
+                            % first local minimum
+                            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                            if dcheck && (bad_mtf_bd == 0)
+                                if isempty(maxAtIdx_c) == 0
+                                    local_max = maxValues_c(1)
+                                elseif mq(1,:) == 1
+                                    local_max = mq(1,:) % assign first element as local maxima if equals to 1 (highest point in signal)
+                                else
+                                    bad_mtf_bd = 1;
+                                end
+                                if isempty(minAtIdx_c) == 0 && (bad_mtf_bd == 0)
+                                    if local_max > 1
+                                        start = maxAtIdx_c(1); %position of first maxima (which is greater than 1)
+                                    else
+                                        start = 1; % measure from start as this is the first maxima
+                                    end
+                                    sbs_mq = mq(start:minAtIdx_c(1));
+                                    [TF, S1] = ischange(mq(start:minAtIdx_c(1)), 'linear', 'MaxNumChanges', 5);
+                                        
+                                        % Check slope change
+                                        if isempty(S1) == 0
+                                            for i_c = 1:(size(S1, 1)-1)
+                                                %check the condition where
+                                                %a negative slope can become
+                                                %positive (remove abnormal squiggly measurements)
+                                                rate = diff([S1(i_c,1), S1((i_c+1),1)])
+    
+                                                if (rate > 0) && (S1((i_c+1),1) > -0.01) && (sbs_mq(i_c,1) < (mq(start,1)-0.1)) && (sbs_mq(i_c,1) > (mq(minAtIdx_c(1),1)+0.1))
+                                                    bad_mtf_bd = 1;
+                                                    break;
+                                                end
+    
+                                            end
+                                        end
+                                else
+                                    bad_mtf_bd = 1;
+                                end
+        
+                            end
+    
+                            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                            % Remove step edges that have too low MTF50 values
+                            % - unsuitable for measurement
+                            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                            if length(freqval) > 1
+                                sfr50 = freqval(2)
+                            else
+                                sfr50 = freqval(1)
+                            end
+                            if sfr50 < 0.1
+                                bad_mtf_bd = 1;
+                            end
+    
+                            BadMTF=find(FE>0.2); % Fitting Thresh original=0.1,0.2
+                            emp2=isempty(BadMTF);
+                            if (emp2==1 || size(BadMTF,1)<=5) && (bad_mtf_bd == 0) && (hfArea <= hfMax) % 5=10%
+                                Dat = [uq,mq];
+                                R{a,1}=Dat;
+                                if debug
+                                    %plot individual MTF measures for each
+                                    %image
+                                    cmap = rand(size(R,1)*size(R,1), 3);
+                                    max_length = max(size(ROIsV_mat,1), size(ROIsH_mat, 1));
+                                    switch O
+                                        case 1
+                                            txt = ['NS-SFRH ROI No. ' num2str(a)];
+                                            set(0, 'currentfigure', f3);
+                                            h = f3;
+                                            fig_exist(1,3) = 1;
+                                        case 2
+                                            txt = ['NS-SFRV ROI No. ' num2str(a)];
+                                            set(0, 'currentfigure', f4);
+                                            fig_exist(1,4) = 1;
+                                            h = f4;
+                                    end
+                                    x = Dat(:,1);
+                                    y = Dat(:,end);
+        
+                                    plot(x, y, 'DisplayName',txt, ...
+                                        'Color', cmap(a,:));
+                                    c_max = max(Dat(:,end));
+                                    if c_max > max_y
+                                        max_y = c_max;
+                                    end
+                                    %ylim([0, max_y + y_space])
+                                    xlim([0, 1])
+                                    title(['ST=' num2str(ST) ...
+                                        ',Contrast Range=[' num2str(Con(1)) ',' num2str(Con(2)) ']' ...
+                                        ',esfW=' num2str(esfW)])
+                                    xlabel('freq [cy/pxl]')
+                                    ylabel('SFR')
+                                    grid on;
+                                    hold on;
+                                    %pts=findchangepts(y,'Statistic','rms', 'MaxNumChanges', 8);
+                                    %plot(x(pts),y(pts),'gx')
+                                    plot(minAt_c, y_min_c, 'bx', 'DisplayName', 'local min')
+                                    plot(maxAt_c, y_max_c, 'rx', 'DisplayName', 'local max')
+                                    %legend('Location', 'northeastoutside')
+                                    legend(legendUnq(h), 'Location', 'northeastoutside',...
+                                        'FontSize', 6)
+                                    switch O
+                                        case 1
+                                            if a == size(ROIsH_mat,1)
+                                                 hold off;
+                                            end
+                                        case 2
+                                            if a == size(ROIsV_mat,1)
+                                                 hold off;
+                                            end
+                                    end
+                                end
+                                switch O
+                                    case 1
+                                        NSSFRh = R;
+                                        
+                                        b = ROIsH{a,4};
+                                        % BD: re-orientate horizontal
+                                        % coordinates for consistency
+                                        temp = zeros(1,4);
+                                        temp(1) = cols - b(2) - b(4);
+                                        temp(2) = b(1);
+                                        temp(3) = b(4);
+                                        temp(4) = b(3);
+                                        
+                                        b = temp;
+    
+                                        c = ROIsH{a,5};
+                                        
+                                        %If needed: adjust horizontal position based on
+                                        %mask position from y-axis
+                                        adj_h = b(1) + b(3)/2;
+                                        % first case: mask width is less
+                                        % than image width but maximum
+                                        % coordinate is equal to image width
+                                        if (min(roi.Position(:, 1))) ~= 0 && (max(roi.Position(:,1)) == cols)
+                                            adj_h = adj_h + (cols - size(tt_img, 2))
+                                        end
+    
+                                        %second case: adjust coordinates to y-axis
+                                        if (min(roi.Position(:, 1)) == 0)
+                                            adj_h = adj_h - (cols - size(tt_img, 2))
+                                        end
+                                        d = [(adj_h) (b(2)+b(4)/2)];
+    
+                                        % write filename
+                                        fprintf(fid_h,"%s",imFiles(A,1).name);
+                                        fprintf(fid_h,",%d", size(imgLin,1));
+                                        fprintf(fid_h,",%d", size(imgLin,2));
+                                        % write ROI coordinates
+                                        for bi = 1:length(b)
+                                            fprintf(fid_h,',%f',b(bi));
+                                        end
+                                        % write edge contrast
+                                        for ci = 1:length(c)
+                                            fprintf(fid_h,',%f',c(ci));
+                                        end
+                                        % write edge angle
+                                        fprintf(fid_h,',%f',angle);
+    
+                                        % write edge centroid
+                                        for di = 1:length(d)
+                                            fprintf(fid_h,',%f',d(di));
+                                        end
+    
+                                        % write MTF10, MTF50
+                                        for freqval_i = 1:length(freqval)
+                                            fprintf(fid_h,',%f',freqval(freqval_i));
+                                        end
+                                        % write MTF curve
+                                        for fi = 1:length(f)
+                                            fprintf(fid_h,',%f',mq(fi));
+                                        end
+                                        fprintf(fid_h,'\n');
+                                        
+    
+                                    case 2
+                                        NSSFRv = R;
+                                        %fid = fopen([resultdir '\' 'vertical.csv'],"a");
+                                        b = ROIsV{a,4};
+                                        c = ROIsV{a,5};
+                                        
+                                        
+                                        d = ROIsV{a,6};
+    
+                                        adj_h = d(1);
+                                        %need to find actual coordinates of
+                                        %vertical ROIs relative to the image
+                                        %not relative to the mask
+                                        %if the mask and image sizes are
+                                        %the same nothing will change.
+                                        if (min(roi.Position(:, 1))) ~= 0 && (max(roi.Position(:,1)) == cols)
+                                            adj_h = d(1) + (cols - size(tt_img, 2))
+                                        end
+    
+                                        d = [adj_h d(2)] 
+                                        
+                                        % write filename
+                                        fprintf(fid_v,"%s",imFiles(A,1).name);
+                                        fprintf(fid_v,",%d", size(imgLin,1));
+                                        fprintf(fid_v,",%d", size(imgLin,2));
+                                        
+                                        % write bounding box
+                                        for bi = 1:length(b)
+                                            fprintf(fid_v,',%f',b(bi));
+                                        end
+                                        % write edge contrast
+                                        for ci = 1:length(c)
+                                            fprintf(fid_v,',%f',c(ci));
+                                        end
+                                        % write edge angle
+                                        fprintf(fid_v,',%f',angle);
+                                        
+                                        % write edge centroid
+                                        for di = 1:length(d)
+                                            fprintf(fid_v,',%f',d(di));
+                                        end
+                                        
+                                        % write MTF10, MTF50
+                                        for freqval_i = 1:length(freqval)
+                                            fprintf(fid_v,',%f',freqval(freqval_i));
+                                        end
+                                        % write MTF curve
+                                        for fi = 1:length(f)
+                                            fprintf(fid_v,',%f',mq(fi));
+                                        end
+                                        fprintf(fid_v,'\n');
+                                end
+                                else
+                                    if debug
+                                        switch O
+                                            case 1
+                                                set(0, 'currentfigure', f1);
+                                                rectangle('Position', [ROIsH_mat(a,1),ROIsH_mat(a,2),ROIsH_mat(a,3),ROIsH_mat(a,4)],...
+                                                            'EdgeColor','r','LineWidth',1.5 )
+                                                text('Position',[ROIsH_mat(a,1) ROIsH_mat(a,2)],'string',['\leftarrow ' num2str(a)],...
+                                                    'Color', 'r', 'LineWidth',3, 'FontSize', 12)              
+                                            case 2
+                                                set(0, 'currentfigure', f2);
+                                                rectangle('Position', [ROIsV_mat(a,1),ROIsV_mat(a,2),ROIsV_mat(a,3),ROIsV_mat(a,4)],...
+                                                            'EdgeColor','r','LineWidth',1.5 )
+                                                text('Position',[ROIsV_mat(a,1)+ROIsV_mat(a,3) ROIsV_mat(a,2)],'string',['\leftarrow ' num2str(a)],...
+                                                    'Color', 'r', 'LineWidth',3, 'FontSize', 12)
+                                        end
+                                    end
+                                    R{a,1}=[];
+                                    R{a,2}=[];
+                                    R{a,3}=[];
+                                    R{a,4}=[];
+                                    R{a,5}=[];
+                                    R{a,6}=[];
+                                    R{a,7}=[];
+                                    R{a,8}=[];
+                            end
+                        else
+                            if debug
+                                switch O
+                                    case 1
+                                        set(0, 'currentfigure', f1);
+                                        rectangle('Position', [ROIsH_mat(a,1),ROIsH_mat(a,2),ROIsH_mat(a,3),ROIsH_mat(a,4)],...
+                                                    'EdgeColor','r','LineWidth',1.5 )
+                                        text('Position',[ROIsH_mat(a,1) ROIsH_mat(a,2)],'string',['\leftarrow ' num2str(a)],...
+                                            'Color', 'r', 'LineWidth',3, 'FontSize', 12)              
+                                    case 2
+                                        set(0, 'currentfigure', f2);
+                                        rectangle('Position', [ROIsV_mat(a,1),ROIsV_mat(a,2),ROIsV_mat(a,3),ROIsV_mat(a,4)],...
+                                                    'EdgeColor','r','LineWidth',1.5 )
+                                        text('Position',[ROIsV_mat(a,1)+ROIsV_mat(a,3) ROIsV_mat(a,2)],'string',['\leftarrow ' num2str(a)],...
+                                            'Color', 'r', 'LineWidth',3, 'FontSize', 12)
+                                end
+                            end
+                            R{a,1}=[];
+                            R{a,2}=[];
+                            R{a,3}=[];
+                            R{a,4}=[];
+                            R{a,5}=[];
+                            R{a,6}=[];
+                            R{a,7}=[];
+                            R{a,8}=[];
+                        end
+                    else
+                        if debug
+                            switch O
+                                case 1
+                                    set(0, 'currentfigure', f1);
+                                    rectangle('Position', [ROIsH_mat(a,1),ROIsH_mat(a,2),ROIsH_mat(a,3),ROIsH_mat(a,4)],...
+                                                'EdgeColor','r','LineWidth',1.5 )
+                                    text('Position',[ROIsH_mat(a,1) ROIsH_mat(a,2)],'string',['\leftarrow ' num2str(a)],...
+                                        'Color', 'r', 'LineWidth',3, 'FontSize', 12)              
+                                case 2
+                                    set(0, 'currentfigure', f2);
+                                    rectangle('Position', [ROIsV_mat(a,1),ROIsV_mat(a,2),ROIsV_mat(a,3),ROIsV_mat(a,4)],...
+                                                'EdgeColor','r','LineWidth',1.5 )
+                                    text('Position',[ROIsV_mat(a,1)+ROIsV_mat(a,3) ROIsV_mat(a,2)],'string',['\leftarrow ' num2str(a)],...
+                                        'Color', 'r', 'LineWidth',3, 'FontSize', 12)
+                            end
+                        end
+                        R{a,1}=[];
+                        R{a,2}=[];
+                        R{a,3}=[];
+                        R{a,4}=[];
+                        R{a,5}=[];
+                        R{a,6}=[];
+                        R{a,7}=[];
+                        R{a,8}=[];
+                    end
+                end
+            end            
+        end
+        % save debug images
+        f_save = strcat(resultdir,filesep,string(imFiles(A).name(1:end-4)));
+        if fig_exist(1,1) == 1
+            saveas(f1,fullfile(strcat(f_save,'_H')),'png');
+        end
+        if fig_exist(1,2) == 1
+            saveas(f2,fullfile(strcat(f_save,'_V')),'png');
+        end
+        if fig_exist(1,3) == 1
+            saveas(f3,fullfile(strcat(f_save,'_NS_SFR_Horizontal_SFR')), 'jpg');
+        end
+        if fig_exist(1,4) == 1
+            saveas(f4,fullfile(strcat(f_save,'_NS_SFR_Vertical_SFR')), 'jpg');
+        end
+        if ishandle(f1)
+            close(f1);
+        end
+        if ishandle(f2)
+            close(f2);
+        end
+        if ishandle(f3)
+            close(f3);
+        end
+        if ishandle(f4)
+            close(f4);
+        end
+        fclose(fid_h);
+        fclose(fid_v);
+    end
+    delete(gcp('nocreate'));
+    csv = dir(fullfile(strcat(resultdir, filesep, '*.csv')));
+    fid_ht = fopen(strcat(resultdir,filesep,'horizontal.csv'),"a");
+    fid_vt = fopen(strcat(resultdir,filesep,'vertical.csv'),"a");
+    for f = 1:numel(csv)
+        if contains(csv(f).name, 'horizontal_')
+            sum_csv(resultdir, csv(f).name, fid_ht);
+        end
+        if contains(csv(f).name, 'vertical_')
+            sum_csv(resultdir, csv(f).name, fid_vt);
+        end
+    end
+end
+
+function sum_csv(resultdir, f, fid_t)
+    content = fileread(strcat(resultdir,filesep,f));
+    [fid,msg] = fopen(f,'at');
+    assert(fid>=3,msg);
+    if ~isempty(content)
+        fprintf(fid_t,'%s',content);
+    end
+    fclose(fid);
+    delete(strcat(resultdir,filesep,f));
+    delete(strcat('.',filesep,f));
+end

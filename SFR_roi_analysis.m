@@ -153,8 +153,6 @@ for i = 1:numel(numMTFsH)
     MTFidxH(i) = idx;
 end
 hold off;
-%legend(legendUnq(h), 'Location', 'southoutside', 'Orientation','horizontal',...
-%    'Box','off', 'FontSize', 5)
 set(gca, 'YDir','reverse') % flip Y axis
 xlim([0 cols])
 ylim([0 rows])
