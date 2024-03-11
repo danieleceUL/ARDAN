@@ -2,15 +2,15 @@
 Measuring optical quality in camera lenses is a crucial step in evaluating cameras, especially for safety-critical visual perception tasks in automotive driving. While ground-truth labels and annotations are provided in publicly available automotive datasets for computer vision tasks, there is a lack of information on the image quality of camera lenses used for data collection. To compensate for this, we propose an Automotive Radial Distortion Analysis (ARDÁN) to evaluate Slanted Edges for ISO12233 in five publicly available automotive datasets using a valid and invalid region of interest (ROI) selection system in natural scenes. We use the mean of 50\% of the Modulation Transfer Function (MTF50) in three Camera Radial Distance (CRD) segments and $5 \times 8$ Heatmap Dataset Distributions (HDD) to evaluate the quality of edges in natural scenes. It was found that for lenses with uniform spatial domains (no distortion), MTF50 was constant between (0.18-0.22) whereas for strong radial distortion, MTF50 varied extensively across the spatial domain between (0.15-0.377) where in particular Woodscape gives the highest average of MTF50 for natural scenes. For more information on results please see our research paper for more details. 
 
 # Sample Region of Interest (ROI) Selection on KITTI
-## Original KITTI
+## Original KITTI Qualitative Results
 ![unr roi select kitti](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/unr-ROI-select.png)
-
-<img src="https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/0000000005_NS_SFR_Horizontal_SFR_ROI_MTF50.png" width="250">
-
-## Rectified KITTI
+## Rectified KITTI Qualitative Results
 ![rect roi select kitti](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/rect-ROI-select.png)
 
-![unr roi select kitti](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/0000000000_NS_SFR_Horizontal_SFR_ROI_MTF50.png)
+## MTF50 Measurements
+<img src="[https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/0000000005_NS_SFR_Horizontal_SFR_ROI_MTF50.png]" width=50% height=50%>
+
+<img src="[https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/0000000000_NS_SFR_Horizontal_SFR_ROI_MTF50.png]" width=50% height=50%>
 
 # ROI Selection on Front View Woodscape
 Before Data Convexity:
