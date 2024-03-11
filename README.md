@@ -14,9 +14,11 @@ Measuring optical quality in camera lenses is a crucial step in evaluating camer
 </p>
 
 # Methodology
+Below is an illustration of the constraints applied for valid and invalid ROI selection:
 <p>
 <img src="https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/MTF_constraints.png" width=50% height=50%>
 </p>
+**Data Convexity**
 
 # Data Convexity
 ## Qualitative Results for Front View Woodscape
