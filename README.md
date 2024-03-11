@@ -74,6 +74,10 @@ Sample code showing GPU detection:
 
 Results and CSV files will be saved automatically in the target directory and execution time depends on the number of test images present in the data folder.
 
+### Multi-run option
+It is now also optional to run part 1 as a sequence known as a *multi run* where the original dataset size is in excess of 2500 images. Any dataset larger than this size it is recommended to split the dataset up into sub-directories and use *multi run* for a complete run. For example, the entire left side of KITTI 360 contains 11,518 images in total which can be divided into 13 sets of 886 images as shown below:
+
+
 ## Part 2
 On executing code 'SFR_roi_analysis.m' in Matlab, the following GUI box appears for user. Please choose the target directory in which results are saved for Radial Distance and Heatmap analysis:
 
