@@ -14,10 +14,9 @@ Measuring optical quality in camera lenses is a crucial step in evaluating camer
 </p>
 <p>
   <em>Unrectified KITTI</em>
+  <br />
   <em>Rectified KITTI</em>
 </p>
-Unrectified KITTI*
-Rectified KITTI*
 
 # ROI Selection on Front View Woodscape
 Before Data Convexity:
