@@ -18,16 +18,20 @@ Below is an illustration of the constraints applied for valid and invalid ROI se
 <p>
 <img src="https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/MTF_constraints.png" width=50% height=50%>
 </p>
-__Data Convexity__
 
-# Data Convexity
+**MTF Convexity**: Checking for convexity is a method for ensuring a consistently smooth slope in MTF curves. Slope change or the rate of change in MTF is is of interest. Depending on the position of the first local maximum and minimum measurements, the most significant drop in MTF across the sampling points between 0 and 1 is recorded.
+**Energy Limitation above Nyquist frequency**: The area under the curve after 0.5 cy/px should not
+exceed 0.2 (0.5cy/px × 0.4SFR) which is at the limit of the local minima constraint.
+**Regional Mask Lens Alignment(RMLA)**: A strategy for aligning the regional mask with the geometry of the
+camera. This ensures the complete removal of any camera vignetting which contains the dark corners where light falls off the lens.
+# MTF Convexity
 ## Qualitative Results for Front View Woodscape
-### Before Data Convexity
+### Before Convexity
 ![roi select](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/00000_FV_H.png)
 ![bf data convexity](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/00000_FV_NS_SFR_Horizontal_SFR.jpg)
-### After Data Convexity
+### After Convexity
 ![roi select](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/00000_FV_H_data_convex.png)
-Data convexity detects and filters out drastic slope changes in measurements.
+MTF convexity detects and filters out drastic slope changes in measurements.
 Eliminates measurements with behaviour such as line No. 11 from above. <br/>
 After Data Convexity is applied to measurements:
 ![af data convexity](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/00000_FV_NS_SFR_Horizontal_SFR_data_convex.jpg)
