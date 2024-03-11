@@ -1,25 +1,48 @@
-# Adapative NSSFR with sfrmat5
-NS-SFR with sfrmat5 and custom data convexity between first maximum and first minimum of SFR measurements.
-Regional masks created for KITTI, Woodscape, KITTI-360 and LMS.
+# ARDÁN: Automotive Radial Distortion Analysis for Camera Quality
+Measuring optical quality in camera lenses is a crucial step in evaluating cameras, especially for safety-critical visual perception tasks in automotive driving. While ground-truth labels and annotations are provided in publicly available automotive datasets for computer vision tasks, there is a lack of information on the image quality of camera lenses used for data collection. To compensate for this, we propose an Automotive Radial Distortion Analysis (ARDÁN) to evaluate Slanted Edges for ISO12233 in five publicly available automotive datasets using a valid and invalid region of interest (ROI) selection system in natural scenes. We use the mean of 50\% of the Modulation Transfer Function (MTF50) in three Camera Radial Distance (CRD) segments and $5 \times 8$ Heatmap Dataset Distributions (HDD) to evaluate the quality of edges in natural scenes. It was found that for lenses with uniform spatial domains (no distortion), MTF50 was constant between (0.18-0.22) whereas for strong radial distortion, MTF50 varied extensively across the spatial domain between (0.15-0.377) where in particular Woodscape gives the highest average of MTF50 for natural scenes. For more information on results please see our research paper for more details. 
 
-# Region of Interest (ROI) Selection on Front View Woodscape
-Before Data Convexity:
+# Sample Region of Interest (ROI) Selection on KITTI
+## Original KITTI Qualitative Results
+![unr roi select kitti](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/unr-ROI-select.png)
+## Rectified KITTI Qualitative Results
+![rect roi select kitti](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/rect-ROI-select.png)
+
+## MTF50 Measurements for Unrectified KITTI vs Rectified KITTI
+<p float="kitti MTF50">
+<img src="https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/0000000005_NS_SFR_Horizontal_SFR_ROI_MTF50.png" width=40% height=40%>
+<img src="https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/0000000000_NS_SFR_Horizontal_SFR_ROI_MTF50.png" width=40% height=40%>
+</p>
+
+# Methodology
+Below is an illustration of the constraints applied for valid and invalid ROI selection:
+<p>
+<img src="https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/MTF_constraints.png" width=50% height=50%>
+</p>
+
+**MTF Convexity**: Checking for convexity is a method for ensuring a consistently smooth slope in MTF curves. Slope change or the rate of change in MTF is is of interest. Depending on the position of the first local maximum and minimum measurements, the most significant drop in MTF across the sampling points between 0 and 1 is recorded.<br/>
+**Energy Limitation above Nyquist frequency**: The area under the curve after 0.5 cy/px should not
+exceed 0.2 (0.5cy/px × 0.4SFR) which is at the limit of the local minima constraint.<br/>
+**Regional Mask Lens Alignment(RMLA)**: A strategy for aligning the regional mask with the geometry of the
+camera. This ensures the complete removal of any camera vignetting which contains the dark corners where light falls off the lens.<br/>
+# MTF Convexity
+## Qualitative Results for Front View Woodscape
+### Before Convexity
 ![roi select](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/00000_FV_H.png)
-
-After Data Convexity:
+![bf mtf convexity](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/00000_FV_NS_SFR_Horizontal_SFR.jpg)
+### After Convexity
 ![roi select](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/00000_FV_H_data_convex.png)
-
-# Data Convexity
-Data convexity detects and filters out drastic slope changes in measurements.
-Eliminates measurements with behaviour such as line No. 11 :
-![data convexity](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/00000_FV_NS_SFR_Horizontal_SFR.jpg)
-
+MTF convexity detects and filters out drastic slope changes in measurements.
+Eliminates measurements with behaviour such as line No. 11 from above. <br/>
 After Data Convexity is applied to measurements:
-![data convexity](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/00000_FV_NS_SFR_Horizontal_SFR_data_convex.jpg)
+![af mtf convexity](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/00000_FV_NS_SFR_Horizontal_SFR_data_convex.jpg)
+
+# Regional Mask Lens Alignment(RMLA)
+![rmla](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/masks/sample-rmla.PNG)
 
 For more information see:
 - [NS-SFR GUI](https://github.com/OlivervZ11/NSSFR-GUI)
 - [sfrmat5](http://burnsdigitalimaging.com/software/sfrmat/iso12233-sfrmat5/)
+
 
 # GPU Acceleration
 
@@ -58,15 +81,26 @@ On executing code 'SFR_roi_analysis.m' in Matlab, the following GUI box appears 
 ## Sample Results
 ![target folder](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/select-results-folder.png)
 
-Sample Spatial Distribution with Radial Distances:
+FV Woodscape Horizontal Spatial Distribution with Radial Distances:
 
 ![spa dist](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/sample_results/spatial_dist_horizontal_ROIs.png)
 
-Sample Heatmap results for MTF50 per 5x8 region of spatial domain:
+FV Woodscape Horizontal Heatmap results for MTF50 per 5x8 region of spatial domain:
 
 ![spa dist](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/sample_results/surface_plot_horizontal_MTF50_mean.png)
 
-Sample Results (Note: MTF on y-axis):
+FV Woodscape Horizontal Results (Note: MTF on y-axis):
 
-![mtf measure](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/sample_results/mean_horizontal_MTFs_per_Annuli.png)
+![mtf measure](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/sample_results/mean_horizontal_MTFs_per_Annuli_mtf50.png)
 
+FV Woodscape Vertical Spatial Distribution with Radial Distances:
+
+![spa dist](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/sample_results/spatial_dist_vertical_ROIs.png)
+
+FV Woodscape Vertical Heatmap results for MTF50 per 5x8 region of spatial domain:
+
+![spa dist](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/sample_results/surface_plot_vertical_MTF50_mean.png)
+
+FV Woodscape Vertical Results (Note: MTF on y-axis):
+
+![mtf measure](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/sample_results/mean_vertical_MTFs_per_Annuli_mtf50.png)
