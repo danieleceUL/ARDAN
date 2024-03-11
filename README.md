@@ -21,7 +21,7 @@ Measuring optical quality in camera lenses is a crucial step in evaluating camer
 ### After Data Convexity
 ![roi select](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/00000_FV_H_data_convex.png)
 Data convexity detects and filters out drastic slope changes in measurements.
-Eliminates measurements with behaviour such as line No. 11 from above
+Eliminates measurements with behaviour such as line No. 11 from above. <br/>
 After Data Convexity is applied to measurements:
 ![af data convexity](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/00000_FV_NS_SFR_Horizontal_SFR_data_convex.jpg)
 
