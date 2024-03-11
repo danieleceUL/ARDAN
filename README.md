@@ -14,7 +14,7 @@ Measuring optical quality in camera lenses is a crucial step in evaluating camer
 </p>
 <p>
   <em>Unrectified KITTI</em>
-  <br />
+  \vspace{10cm}
   <em>Rectified KITTI</em>
 </p>
 
