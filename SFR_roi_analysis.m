@@ -299,7 +299,7 @@ legend(legendUnq(h), 'Location', 'northeast', 'FontSize', 5)
 xlim([0 1])
 xlabel('cy/px')
 
-% plot spatial distribution of Horizontal heatmap regions
+% plot spatial distribution of heatmap regions
 h = figure('Name', 'spatial_dist_heatmap_locations');
 hold on
 grid on
