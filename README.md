@@ -10,9 +10,7 @@ Measuring optical quality in camera lenses is a crucial step in evaluating camer
 ## MTF50 Measurements
 <p float="kitti MTF50">
 <img src="https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/0000000005_NS_SFR_Horizontal_SFR_ROI_MTF50.png" width=40% height=40%>
-<em>Unrectified KITTI</em>
 <img src="https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/0000000000_NS_SFR_Horizontal_SFR_ROI_MTF50.png" width=40% height=40%>
-<em>Rectified KITTI</em>
 </p>
 
 # ROI Selection on Front View Woodscape
