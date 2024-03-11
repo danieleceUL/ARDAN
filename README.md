@@ -13,24 +13,22 @@ Measuring optical quality in camera lenses is a crucial step in evaluating camer
 <img src="https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/0000000000_NS_SFR_Horizontal_SFR_ROI_MTF50.png" width=40% height=40%>
 </p>
 
-# Qualitative Results for Front View Woodscape
-## Before Data Convexity
-![roi select](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/00000_FV_H.png)
-
-## After Data Convexity
-![roi select](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/00000_FV_H_data_convex.png)
-
 # Data Convexity
+## Qualitative Results for Front View Woodscape
+### Before Data Convexity
+![roi select](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/00000_FV_H.png)
+![bf data convexity](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/00000_FV_NS_SFR_Horizontal_SFR.jpg)
+### After Data Convexity
+![roi select](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/00000_FV_H_data_convex.png)
 Data convexity detects and filters out drastic slope changes in measurements.
-Eliminates measurements with behaviour such as line No. 11 :
-![data convexity](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/00000_FV_NS_SFR_Horizontal_SFR.jpg)
-
+Eliminates measurements with behaviour such as line No. 11 from above
 After Data Convexity is applied to measurements:
-![data convexity](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/00000_FV_NS_SFR_Horizontal_SFR_data_convex.jpg)
+![af data convexity](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/00000_FV_NS_SFR_Horizontal_SFR_data_convex.jpg)
 
 For more information see:
 - [NS-SFR GUI](https://github.com/OlivervZ11/NSSFR-GUI)
 - [sfrmat5](http://burnsdigitalimaging.com/software/sfrmat/iso12233-sfrmat5/)
+
 
 # GPU Acceleration
 
