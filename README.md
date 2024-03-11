@@ -37,7 +37,7 @@ After Data Convexity is applied to measurements:
 ![af mtf convexity](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/00000_FV_NS_SFR_Horizontal_SFR_data_convex.jpg)
 
 # Regional Mask Lens Alignment(RMLA)
-![rmla](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/sample-rmla.png)
+![rmla](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/masks/sample-rmla.png)
 
 For more information see:
 - [NS-SFR GUI](https://github.com/OlivervZ11/NSSFR-GUI)
