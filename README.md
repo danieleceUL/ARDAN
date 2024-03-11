@@ -7,13 +7,10 @@ Measuring optical quality in camera lenses is a crucial step in evaluating camer
 ## Rectified KITTI Qualitative Results
 ![rect roi select kitti](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/rect-ROI-select.png)
 
-## MTF50 Measurements
+## MTF50 Measurements for Unrectified KITTI vs Rectified KITTI
 <p float="kitti MTF50">
 <img src="https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/0000000005_NS_SFR_Horizontal_SFR_ROI_MTF50.png" width=40% height=40%>
-  <em>Unrectified KITTI</em>
 <img src="https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/0000000000_NS_SFR_Horizontal_SFR_ROI_MTF50.png" width=40% height=40%>
-  <br/>
-  <em>Rectified KITTI</em>
 </p>
 
 # ROI Selection on Front View Woodscape
