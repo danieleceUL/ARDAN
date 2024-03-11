@@ -13,6 +13,9 @@ Measuring optical quality in camera lenses is a crucial step in evaluating camer
 <img src="https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/0000000000_NS_SFR_Horizontal_SFR_ROI_MTF50.png" width=40% height=40%>
 </p>
 
+# Methodology
+![mtf constraints](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/MTF_constraints.png)
+
 # Data Convexity
 ## Qualitative Results for Front View Woodscape
 ### Before Data Convexity
