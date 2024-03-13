@@ -102,7 +102,7 @@ FV Woodscape Horizontal Results (Note: MTF on y-axis):
 
 FV Woodscape Vertical Spatial Distribution with Radial Distances:
 
-![spa dist](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/sample_results/spatial_dist_vertical_ROIs.png)
+<img src="https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/sample_results/spatial_dist_vertical_ROIs.png" width=50% height=50%>
 
 FV Woodscape Vertical Heatmap results for MTF50 per 5x8 region of spatial domain:
 
