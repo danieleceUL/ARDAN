@@ -90,11 +90,11 @@ On executing code 'SFR_roi_analysis.m' in Matlab, the following GUI box appears 
 
 FV Woodscape Horizontal Spatial Distribution with Radial Distances:
 
-![spa dist](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/sample_results/spatial_dist_horizontal_ROIs.png)
+<img src="https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/sample_results/spatial_dist_horizontal_ROIs.png" width=40% height=40%>
 
 FV Woodscape Horizontal Heatmap results for MTF50 per 5x8 region of spatial domain:
 
-<img src="https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/sample_results/surface_plot_horizontal_MTF50_mean.png" width=40% height=40%>
+![heatmap](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/sample_results/surface_plot_horizontal_MTF50_mean.png)
 
 FV Woodscape Horizontal Results (Note: MTF on y-axis):
 
@@ -106,7 +106,7 @@ FV Woodscape Vertical Spatial Distribution with Radial Distances:
 
 FV Woodscape Vertical Heatmap results for MTF50 per 5x8 region of spatial domain:
 
-![spa dist](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/sample_results/surface_plot_vertical_MTF50_mean.png)
+![heatmap](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/sample_results/surface_plot_vertical_MTF50_mean.png)
 
 FV Woodscape Vertical Results (Note: MTF on y-axis):
 
