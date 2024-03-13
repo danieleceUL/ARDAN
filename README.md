@@ -28,14 +28,14 @@ camera. This ensures the complete removal of any camera vignetting which contain
 ## Qualitative Results for Front View Woodscape
 ### Before Convexity
 ![roi select](https://github.com/danieleceUL/ARDAN/blob/main/images/00000_FV_H.png)
-<img src="https://github.com/danieleceUL/ARDAN/blob/main/images/00000_FV_NS_SFR_Horizontal_SFR.jpg" width=50% height=50%>
+<img src="https://github.com/danieleceUL/ARDAN/blob/main/images/00000_FV_NS_SFR_Horizontal_SFR.jpg" width=70% height=70%>
 ### After Convexity
 ![roi select](https://github.com/danieleceUL/ARDAN/blob/main/images/00000_FV_H_data_convex.png)
 MTF convexity detects and filters out drastic slope changes in measurements.
 Eliminates measurements with behaviour such as line No. 11 from above. <br/>
 After Data Convexity is applied to measurements:
 
-<img src="https://github.com/danieleceUL/ARDAN/blob/main/images/00000_FV_NS_SFR_Horizontal_SFR_data_convex.jpg" width=50% height=50%>
+<img src="https://github.com/danieleceUL/ARDAN/blob/main/images/00000_FV_NS_SFR_Horizontal_SFR_data_convex.jpg" width=70% height=70%>
 
 # Regional Mask Lens Alignment(RMLA)
 ![rmla](https://github.com/danieleceUL/ARDAN/blob/main/masks/sample-rmla.PNG)
