@@ -90,7 +90,7 @@ On executing code 'SFR_roi_analysis.m' in Matlab, the following GUI box appears 
 
 FV Woodscape Horizontal Spatial Distribution with Radial Distances:
 
-<img src="https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/sample_results/spatial_dist_horizontal_ROIs.png" width=60% height=60%>
+<img src="https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/sample_results/spatial_dist_horizontal_ROIs.png" width=50% height=50%>
 
 FV Woodscape Horizontal Heatmap results for MTF50 per 5x8 region of spatial domain:
 
