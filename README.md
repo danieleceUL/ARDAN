@@ -34,6 +34,7 @@ camera. This ensures the complete removal of any camera vignetting which contain
 MTF convexity detects and filters out drastic slope changes in measurements.
 Eliminates measurements with behaviour such as line No. 11 from above. <br/>
 After Data Convexity is applied to measurements:
+
 <img src="https://github.com/danieleceUL/ARDAN/blob/main/images/00000_FV_NS_SFR_Horizontal_SFR_data_convex.jpg" width=50% height=50%>
 
 # Regional Mask Lens Alignment(RMLA)
