@@ -98,7 +98,7 @@ FV Woodscape Horizontal Heatmap results for MTF50 per 5x8 region of spatial doma
 
 FV Woodscape Horizontal Results (Note: MTF on y-axis):
 
-<img src="https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/sample_results/mean_horizontal_MTFs_per_Annuli_mtf50.png"  width=40% height=40%>
+<img src="https://github.com/danieleceUL/ARDAN/blob/main/sample_results/mean_horizontal_MTFs_per_Annuli_mtf50.png"  width=30% height=30%>
 
 FV Woodscape Vertical Spatial Distribution with Radial Distances:
 
