@@ -3,20 +3,20 @@ Measuring optical quality in camera lenses is a crucial step in evaluating camer
 
 # Sample Region of Interest (ROI) Selection on KITTI
 ## Original KITTI Qualitative Results
-![unr roi select kitti](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/unr-ROI-select.png)
+![unr roi select kitti](https://github.com/danieleceUL/ARDAN/blob/main/images/unr-ROI-select.png)
 ## Rectified KITTI Qualitative Results
-![rect roi select kitti](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/rect-ROI-select.png)
+![rect roi select kitti](https://github.com/danieleceUL/ARDAN/blob/main/images/rect-ROI-select.png)
 
 ## MTF50 Measurements for Unrectified KITTI vs Rectified KITTI
 <p float="kitti MTF50">
-<img src="https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/0000000005_NS_SFR_Horizontal_SFR_ROI_MTF50.png" width=40% height=40%>
-<img src="https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/0000000000_NS_SFR_Horizontal_SFR_ROI_MTF50.png" width=40% height=40%>
+<img src="https://github.com/danieleceUL/ARDAN/blob/main/images/0000000005_NS_SFR_Horizontal_SFR_ROI_MTF50.png" width=40% height=40%>
+<img src="https://github.com/danieleceUL/ARDAN/blob/main/images/0000000000_NS_SFR_Horizontal_SFR_ROI_MTF50.png" width=40% height=40%>
 </p>
 
 # Methodology
 Below is an illustration of the constraints applied for valid and invalid ROI selection:
 <p>
-<img src="https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/MTF_constraints.png" width=50% height=50%>
+<img src="https://github.com/danieleceUL/ARDAN/blob/main/images/MTF_constraints.png" width=50% height=50%>
 </p>
 
 **MTF Convexity**: Checking for convexity is a method for ensuring a consistently smooth slope in MTF curves. Slope change or the rate of change in MTF is is of interest. Depending on the position of the first local maximum and minimum measurements, the most significant drop in MTF across the sampling points between 0 and 1 is recorded.<br/>
@@ -27,17 +27,17 @@ camera. This ensures the complete removal of any camera vignetting which contain
 # MTF Convexity
 ## Qualitative Results for Front View Woodscape
 ### Before Convexity
-![roi select](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/00000_FV_H.png)
-![bf mtf convexity](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/00000_FV_NS_SFR_Horizontal_SFR.jpg)
+![roi select](https://github.com/danieleceUL/ARDAN/blob/main/images/00000_FV_H.png)
+![bf mtf convexity](https://github.com/danieleceUL/ARDAN/blob/main/images/00000_FV_NS_SFR_Horizontal_SFR.jpg)
 ### After Convexity
-![roi select](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/00000_FV_H_data_convex.png)
+![roi select](https://github.com/danieleceUL/ARDAN/blob/main/images/00000_FV_H_data_convex.png)
 MTF convexity detects and filters out drastic slope changes in measurements.
 Eliminates measurements with behaviour such as line No. 11 from above. <br/>
 After Data Convexity is applied to measurements:
-![af mtf convexity](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/00000_FV_NS_SFR_Horizontal_SFR_data_convex.jpg)
+![af mtf convexity](https://github.com/danieleceUL/ARDAN/blob/main/images/00000_FV_NS_SFR_Horizontal_SFR_data_convex.jpg)
 
 # Regional Mask Lens Alignment(RMLA)
-![rmla](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/masks/sample-rmla.PNG)
+![rmla](https://github.com/danieleceUL/ARDAN/blob/main/masks/sample-rmla.PNG)
 
 For more information see:
 - [NS-SFR GUI](https://github.com/OlivervZ11/NSSFR-GUI)
@@ -52,9 +52,9 @@ GPU support recommended for large datasets with 10+ images.
 
 Sample code showing GPU detection:
 
-![gpu acc](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/gpu-acc.png)
+![gpu acc](https://github.com/danieleceUL/ARDAN/blob/main/images/gpu-acc.png)
 
-![gpu acc](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/gpu-acc-2.png)
+![gpu acc](https://github.com/danieleceUL/ARDAN/blob/main/images/gpu-acc-2.png)
 
 # Sample Run
 
@@ -62,22 +62,22 @@ Sample code showing GPU detection:
 
 1. On executing code  'SFR_roi_proposal.m' in Matlab, the following GUI box appears for user, please navigate and open appropriate directory with images:
 
-![data](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/folder-with-data.png)
+![data](https://github.com/danieleceUL/ARDAN/blob/main/images/folder-with-data.png)
 
 2. Choose appropriate regional mask for KITTI, Woodscape, SynWoodscape or LMS datasets
 
-![masks](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/regional-masks.png)
+![masks](https://github.com/danieleceUL/ARDAN/blob/main/images/regional-masks.png)
 
 3. Choose destination directory in which results should be saved:
 
-![target folder](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/folder-with-results.png)
+![target folder](https://github.com/danieleceUL/ARDAN/blob/main/images/folder-with-results.png)
 
 Results and CSV files will be saved automatically in the target directory and execution time depends on the number of test images present in the data folder.
 
 ### Multi Run (for datasets in excess of 2500+ images)
 You may also wish to run **Part 1** as a sequence known as a *multi run* where the original dataset size is in excess of 2500+ images. Any dataset larger than this size should be split into sub-directories and use *multi run* for a complete analysis. For example, the entire left side of KITTI 360 contains 11,518 images in total which can be divided into 13 subdirectories containing 886 images each as shown below:
 
-![multi-run](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/multi_run.PNG)
+![multi-run](https://github.com/danieleceUL/ARDAN/blob/main/images/multi_run.PNG)
 
 Note: if multi run is used, each of the 13 sub-directories will contain a *.csv* for both horizontal and vertical slanted edge measurements for the 886 images in the sub-directory. All 13 separate results should be transferred to a combination folder as shown above and the csv files should be appended for a complete set of results on the entire dataset. Once this is complete you may proceed to **Part 2** where analysis should continue from the *combination* folder.
 
@@ -86,28 +86,28 @@ On executing code 'SFR_roi_analysis.m' in Matlab, the following GUI box appears 
 
 
 ## Sample Results
-![target folder](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/select-results-folder.png)
+![target folder](https://github.com/danieleceUL/ARDAN/blob/main/images/select-results-folder.png)
 
 FV Woodscape Horizontal Spatial Distribution with Radial Distances:
 
-<img src="https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/sample_results/spatial_dist_horizontal_ROIs.png" width=50% height=50%>
+<img src="https://github.com/danieleceUL/ARDAN/blob/main/sample_results/spatial_dist_horizontal_ROIs.png" width=50% height=50%>
 
 FV Woodscape Horizontal Heatmap results for MTF50 per 5x8 region of spatial domain:
 
-<img src="https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/sample_results/surface_plot_horizontal_MTF50_mean.png" width=50% height=50%>
+<img src="https://github.com/danieleceUL/ARDAN/blob/main/sample_results/surface_plot_horizontal_MTF50_mean.png" width=50% height=50%>
 
 FV Woodscape Horizontal Results (Note: MTF on y-axis):
 
-<img src="https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/sample_results/mean_horizontal_MTFs_per_Annuli_mtf50.png" width=50% height=50%>
+<img src="https://github.com/danieleceUL/ARDAN/blob/main/sample_results/mean_horizontal_MTFs_per_Annuli_mtf50.png" width=50% height=50%>
 
 FV Woodscape Vertical Spatial Distribution with Radial Distances:
 
-<img src="https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/sample_results/spatial_dist_vertical_ROIs.png" width=50% height=50%>
+<img src="https://github.com/danieleceUL/ARDAN/blob/main/sample_results/spatial_dist_vertical_ROIs.png" width=50% height=50%>
 
 FV Woodscape Vertical Heatmap results for MTF50 per 5x8 region of spatial domain:
 
-<img src="https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/sample_results/surface_plot_vertical_MTF50_mean.png" width=50% height=50%>
+<img src="https://github.com/danieleceUL/ARDAN/blob/main/sample_results/surface_plot_vertical_MTF50_mean.png" width=50% height=50%>
 
 FV Woodscape Vertical Results (Note: MTF on y-axis):
 
-<img src="https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/sample_results/mean_vertical_MTFs_per_Annuli_mtf50.png" width=50% height=50%>
+<img src="https://github.com/danieleceUL/ARDAN/blob/main/sample_results/mean_vertical_MTFs_per_Annuli_mtf50.png" width=50% height=50%>
