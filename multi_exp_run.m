@@ -187,4 +187,4 @@ else
     end
 end
 toc
-disp('Completed NS-SFR Extraction for multiple datasets');
+disp('Completed NS-SFR Extraction for multiple/single dataset(s)');
