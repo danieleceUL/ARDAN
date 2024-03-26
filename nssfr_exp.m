@@ -1,15 +1,15 @@
 %% read in image files
 % Read image file names from user Folder
-function nssfr_exp(selpath, subdir, selmsk, mskpath, resultdir, numWorkers, debug, ST, esfW, ...
+function nssfr_exp(selpath, exp_name, selmsk, mskpath, resultdir, numWorkers, debug, ST, esfW, ...
     minEdge, maxEdge, Con, raw, npoly, hfMax, dcheck, sfrv)
     imFiles = [...
-        dir(fullfile([selpath filesep subdir filesep '*.jpg']));
-        dir(fullfile([selpath filesep subdir filesep '*.jpeg']));
-        dir(fullfile([selpath filesep subdir filesep '*.png']));
-        dir(fullfile([selpath filesep subdir filesep '*.tif']));
-        dir(fullfile([selpath filesep subdir filesep '*.tiff']));
-        dir(fullfile([selpath filesep subdir filesep '*.dcg']));
-        dir(fullfile([selpath filesep subdir filesep '*.raw']));
+        dir(fullfile([selpath filesep '*.jpg']));
+        dir(fullfile([selpath filesep '*.jpeg']));
+        dir(fullfile([selpath filesep '*.png']));
+        dir(fullfile([selpath filesep '*.tif']));
+        dir(fullfile([selpath filesep '*.tiff']));
+        dir(fullfile([selpath filesep '*.dcg']));
+        dir(fullfile([selpath filesep '*.raw']));
         ];
     
     % imnumber stores the number of files that have been read
@@ -31,7 +31,7 @@ function nssfr_exp(selpath, subdir, selmsk, mskpath, resultdir, numWorkers, debu
     elseif contains(imFiles(1).name, 'RV')
         pers = 'RV';
     else
-        pers = 'NP'; % indicates no perspective found
+        pers = exp_name; % give name of subdirectory
     end
     
     if selmsk == 0

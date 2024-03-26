@@ -3,7 +3,6 @@ close all;
 clc;
 numWorkers = 4;
 debug = 1;
-set(0, 'DefaultFigureVisible', 'off');
 %% configure detection parameters
 ST   = 0.02;%0.02, 0.04
 % ESF min width for system (pixels) - Change this threshold based on
