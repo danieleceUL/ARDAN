@@ -22,7 +22,7 @@ Below is an illustration of the constraints applied for valid and invalid ROI se
 <img src="https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/MTF_constraints.png" width=50% height=50%>
 </p>
 
-**MTF Convexity**: Checking for convexity is a method for ensuring a consistently smooth slope in MTF curves. Slope change or the rate of change in MTF is is of interest. Depending on the position of the first local maximum and minimum measurements, the most significant drop in MTF across the sampling points between 0 and 1 is recorded.<br/>
+**MTF Convexity**: Checking for convexity is a method for ensuring a consistently smooth slope in MTF curves. Slope change or the rate of change in MTF is of interest. Depending on the position of the first local maximum and minimum measurements, the most significant drop in MTF across the sampling points between 0 and 1 is recorded.<br/>
 **Energy Limitation above Nyquist frequency**: The area under the curve after 0.5 cy/px should not
 exceed 0.2 (0.5cy/px × 0.4SFR) which is at the limit of the local minima constraint.<br/>
 **Regional Mask Lens Alignment(RMLA)**: A strategy for aligning the regional mask with the geometry of the
