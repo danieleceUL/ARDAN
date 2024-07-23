@@ -83,10 +83,10 @@ Note: if multi run is used, each of the 13 sub-directories will contain a *.csv*
 A strategy of file transfer would be recursively iterating through the subdirectories finding *horizontal.csv* and *vertical.csv* and copying over to the empty combination folder with appended numbering format such as *horizontal-N.csv* where *N = 1...N* folders. This is performed by the Bash script located in the *pre-processing* folder. Please see the following linux commands:
 
 Markup :
-`
+```rb
     foo@bar:~/{path-to-ARDAN-folder}/pre-processing$ chmod +x multi-run-analysis-preproc.sh
     foo@bar:~/{path-to-ARDAN-folder}/pre-processing$ ./multi-run-analysis-preproc.sh {path-to-results-folder-with-multi-run-subdirectories} 
-`
+```
 
 ## Part 2
 On executing code 'SFR_roi_analysis.m' in Matlab, the following GUI box appears for user. Please choose the target directory in which results are saved for Radial Distance and Heatmap analysis:
