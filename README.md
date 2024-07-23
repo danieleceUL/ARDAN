@@ -80,6 +80,12 @@ You may also wish to run **Part 1** as a sequence known as a *multi run* where t
 ![multi-run](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/multi_run.PNG)
 
 Note: if multi run is used, each of the 13 sub-directories will contain a *.csv* for both horizontal and vertical slanted edge measurements for the 886 images in the sub-directory. All 13 separate results should be transferred to a combination folder as shown above and the csv files should be appended for a complete set of results on the entire dataset. Once this is complete you may proceed to **Part 2** where analysis should continue from the *combination* folder.
+A strategy of file transfer would be recursively iterating through the subdirectories finding *horizontal.csv* and *vertical.csv* and copying over to the empty combination folder with appended numbering format such as *horizontal-N.csv* where *N = 1...N* folders. Please see the following linux commands:
+
+Markup : `code(
+    foo@bar:~/{path-to-ARDAN-folder}/pre-processing$ chmod +x multi-run-analysis-preproc.sh
+    foo@bar:~/{path-to-ARDAN-folder}/pre-processing$ ./multi-run-analysis-preproc.sh {path-to-results-folder-with-multi-run-subdirectories} 
+)`
 
 ## Part 2
 On executing code 'SFR_roi_analysis.m' in Matlab, the following GUI box appears for user. Please choose the target directory in which results are saved for Radial Distance and Heatmap analysis:

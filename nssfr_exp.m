@@ -1,6 +1,6 @@
 %% read in image files
 % Read image file names from user Folder
-function nssfr_exp(selpath, exp_name, selmsk, mskpath, resultdir, numWorkers, debug, ST, esfW, ...
+function nssfr_exp(selpath, exp_name, selmsk, mskpath, resultdir, numWorkers, debug, valInval, ST, esfW, ...
     minEdge, maxEdge, Con, raw, npoly, hfMax, dcheck, sfrv)
     imFiles = [...
         dir(fullfile([selpath filesep '*.jpg']));
@@ -96,7 +96,7 @@ function nssfr_exp(selpath, exp_name, selmsk, mskpath, resultdir, numWorkers, de
         % open the files
         fid_h = fopen(fh,"a");
         fid_v = fopen(fv,"a");
-    
+
         % Display Progress  
         Waitbartex=['Processing Image...' num2str(A) filesep num2str(imNumber)];
         disp(Waitbartex);
@@ -523,16 +523,34 @@ function nssfr_exp(selpath, exp_name, selmsk, mskpath, resultdir, numWorkers, de
                                         switch O
                                             case 1
                                                 set(0, 'currentfigure', f1);
-                                                rectangle('Position', [ROIsH_mat(a,1),ROIsH_mat(a,2),ROIsH_mat(a,3),ROIsH_mat(a,4)],...
-                                                            'EdgeColor','r','LineWidth',1.5 )
-                                                text('Position',[ROIsH_mat(a,1) ROIsH_mat(a,2)],'string',['\leftarrow ' num2str(a)],...
-                                                    'Color', 'r', 'LineWidth',3, 'FontSize', 12)              
+                                                if valInval == 0
+                                                    rect_h_obj = findobj('Type', 'Rectangle', '-and', ...
+                                                        'Position', [ROIsH_mat(a,1),ROIsH_mat(a,2),ROIsH_mat(a,3),ROIsH_mat(a,4)]);
+                                                    text_h_obj = findobj(gcf, 'Type', 'text', '-and', ...
+                                                        'string', ['\leftarrow ' num2str(a)])
+                                                    delete(rect_h_obj)
+                                                    delete(text_h_obj)
+                                                else
+                                                    rectangle('Position', [ROIsH_mat(a,1),ROIsH_mat(a,2),ROIsH_mat(a,3),ROIsH_mat(a,4)],...
+                                                                'EdgeColor','r','LineWidth',1.5 )
+                                                    text('Position',[ROIsH_mat(a,1) ROIsH_mat(a,2)],'string',['\leftarrow ' num2str(a)],...
+                                                        'Color', 'r', 'LineWidth',3, 'FontSize', 12)
+                                                end
                                             case 2
                                                 set(0, 'currentfigure', f2);
-                                                rectangle('Position', [ROIsV_mat(a,1),ROIsV_mat(a,2),ROIsV_mat(a,3),ROIsV_mat(a,4)],...
-                                                            'EdgeColor','r','LineWidth',1.5 )
-                                                text('Position',[ROIsV_mat(a,1)+ROIsV_mat(a,3) ROIsV_mat(a,2)],'string',['\leftarrow ' num2str(a)],...
-                                                    'Color', 'r', 'LineWidth',3, 'FontSize', 12)
+                                                if valInval == 0
+                                                    rect_v_obj = findobj('Type', 'Rectangle', '-and', ...
+                                                        'Position', [ROIsV_mat(a,1),ROIsV_mat(a,2),ROIsV_mat(a,3),ROIsV_mat(a,4)]);
+                                                    text_v_obj = findobj(gcf, 'Type', 'text', '-and', ...
+                                                        'string', ['\leftarrow ' num2str(a)]);
+                                                    delete(rect_v_obj)
+                                                    delete(text_v_obj)
+                                                else
+                                                    rectangle('Position', [ROIsV_mat(a,1),ROIsV_mat(a,2),ROIsV_mat(a,3),ROIsV_mat(a,4)],...
+                                                                'EdgeColor','r','LineWidth',1.5 )
+                                                    text('Position',[ROIsV_mat(a,1)+ROIsV_mat(a,3) ROIsV_mat(a,2)],'string',['\leftarrow ' num2str(a)],...
+                                                        'Color', 'r', 'LineWidth',3, 'FontSize', 12)
+                                                end
                                         end
                                     end
                                     R{a,1}=[];
@@ -549,16 +567,34 @@ function nssfr_exp(selpath, exp_name, selmsk, mskpath, resultdir, numWorkers, de
                                 switch O
                                     case 1
                                         set(0, 'currentfigure', f1);
-                                        rectangle('Position', [ROIsH_mat(a,1),ROIsH_mat(a,2),ROIsH_mat(a,3),ROIsH_mat(a,4)],...
-                                                    'EdgeColor','r','LineWidth',1.5 )
-                                        text('Position',[ROIsH_mat(a,1) ROIsH_mat(a,2)],'string',['\leftarrow ' num2str(a)],...
-                                            'Color', 'r', 'LineWidth',3, 'FontSize', 12)              
+                                        if valInval == 0
+                                            rect_h_obj = findobj('Type', 'Rectangle', '-and', ...
+                                                'Position', [ROIsH_mat(a,1),ROIsH_mat(a,2),ROIsH_mat(a,3),ROIsH_mat(a,4)]);
+                                            text_h_obj = findobj(gcf, 'Type', 'text', '-and', ...
+                                                'string', ['\leftarrow ' num2str(a)])
+                                            delete(rect_h_obj)
+                                            delete(text_h_obj)
+                                        else
+                                            rectangle('Position', [ROIsH_mat(a,1),ROIsH_mat(a,2),ROIsH_mat(a,3),ROIsH_mat(a,4)],...
+                                                        'EdgeColor','r','LineWidth',1.5 )
+                                            text('Position',[ROIsH_mat(a,1) ROIsH_mat(a,2)],'string',['\leftarrow ' num2str(a)],...
+                                                'Color', 'r', 'LineWidth',3, 'FontSize', 12)
+                                        end             
                                     case 2
                                         set(0, 'currentfigure', f2);
-                                        rectangle('Position', [ROIsV_mat(a,1),ROIsV_mat(a,2),ROIsV_mat(a,3),ROIsV_mat(a,4)],...
-                                                    'EdgeColor','r','LineWidth',1.5 )
-                                        text('Position',[ROIsV_mat(a,1)+ROIsV_mat(a,3) ROIsV_mat(a,2)],'string',['\leftarrow ' num2str(a)],...
-                                            'Color', 'r', 'LineWidth',3, 'FontSize', 12)
+                                        if valInval == 0
+                                            rect_v_obj = findobj('Type', 'Rectangle', '-and', ...
+                                                'Position', [ROIsV_mat(a,1),ROIsV_mat(a,2),ROIsV_mat(a,3),ROIsV_mat(a,4)]);
+                                            text_v_obj = findobj(gcf, 'Type', 'text', '-and', ...
+                                                'string', ['\leftarrow ' num2str(a)]);
+                                            delete(rect_v_obj)
+                                            delete(text_v_obj)
+                                        else
+                                            rectangle('Position', [ROIsV_mat(a,1),ROIsV_mat(a,2),ROIsV_mat(a,3),ROIsV_mat(a,4)],...
+                                                        'EdgeColor','r','LineWidth',1.5 )
+                                            text('Position',[ROIsV_mat(a,1)+ROIsV_mat(a,3) ROIsV_mat(a,2)],'string',['\leftarrow ' num2str(a)],...
+                                                'Color', 'r', 'LineWidth',3, 'FontSize', 12)
+                                        end
                                 end
                             end
                             R{a,1}=[];
@@ -575,16 +611,34 @@ function nssfr_exp(selpath, exp_name, selmsk, mskpath, resultdir, numWorkers, de
                             switch O
                                 case 1
                                     set(0, 'currentfigure', f1);
-                                    rectangle('Position', [ROIsH_mat(a,1),ROIsH_mat(a,2),ROIsH_mat(a,3),ROIsH_mat(a,4)],...
-                                                'EdgeColor','r','LineWidth',1.5 )
-                                    text('Position',[ROIsH_mat(a,1) ROIsH_mat(a,2)],'string',['\leftarrow ' num2str(a)],...
-                                        'Color', 'r', 'LineWidth',3, 'FontSize', 12)              
+                                    if valInval == 0
+                                        rect_h_obj = findobj('Type', 'Rectangle', '-and', ...
+                                            'Position', [ROIsH_mat(a,1),ROIsH_mat(a,2),ROIsH_mat(a,3),ROIsH_mat(a,4)]);
+                                        text_h_obj = findobj(gcf, 'Type', 'text', '-and', ...
+                                            'string', ['\leftarrow ' num2str(a)])
+                                        delete(rect_h_obj)
+                                        delete(text_h_obj)
+                                    else
+                                        rectangle('Position', [ROIsH_mat(a,1),ROIsH_mat(a,2),ROIsH_mat(a,3),ROIsH_mat(a,4)],...
+                                                    'EdgeColor','r','LineWidth',1.5 )
+                                        text('Position',[ROIsH_mat(a,1) ROIsH_mat(a,2)],'string',['\leftarrow ' num2str(a)],...
+                                            'Color', 'r', 'LineWidth',3, 'FontSize', 12)
+                                    end             
                                 case 2
                                     set(0, 'currentfigure', f2);
-                                    rectangle('Position', [ROIsV_mat(a,1),ROIsV_mat(a,2),ROIsV_mat(a,3),ROIsV_mat(a,4)],...
-                                                'EdgeColor','r','LineWidth',1.5 )
-                                    text('Position',[ROIsV_mat(a,1)+ROIsV_mat(a,3) ROIsV_mat(a,2)],'string',['\leftarrow ' num2str(a)],...
-                                        'Color', 'r', 'LineWidth',3, 'FontSize', 12)
+                                    if valInval == 0
+                                        rect_v_obj = findobj('Type', 'Rectangle', '-and', ...
+                                            'Position', [ROIsV_mat(a,1),ROIsV_mat(a,2),ROIsV_mat(a,3),ROIsV_mat(a,4)]);
+                                        text_v_obj = findobj(gcf, 'Type', 'text', '-and', ...
+                                            'string', ['\leftarrow ' num2str(a)]);
+                                        delete(rect_v_obj)
+                                        delete(text_v_obj)
+                                    else
+                                        rectangle('Position', [ROIsV_mat(a,1),ROIsV_mat(a,2),ROIsV_mat(a,3),ROIsV_mat(a,4)],...
+                                                    'EdgeColor','r','LineWidth',1.5 )
+                                        text('Position',[ROIsV_mat(a,1)+ROIsV_mat(a,3) ROIsV_mat(a,2)],'string',['\leftarrow ' num2str(a)],...
+                                            'Color', 'r', 'LineWidth',3, 'FontSize', 12)
+                                    end
                             end
                         end
                         R{a,1}=[];

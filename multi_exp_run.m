@@ -3,12 +3,22 @@
 %   Name: Daniel Jakab
 %   Description: Execute SFR ROI Proposal for multiple experiments
 %
+%   Maximum Hierarchy structure accepted:
+%   Level 0/
+%       Level 1/
+%           Level 2/
+%               Level 3/
+%                   Level 4/
+%                       Level 5/
+%                           *.png/jpg/jpeg/tif/tiff/dcg/raw
+%   With one Subdirectory acting as a multi-environment.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 clear all;
 close all;
 clc;
 numWorkers = 4;
 debug = 1;
+valInval = 0;
 set(0, 'DefaultFigureVisible', 'off');
 %% configure detection parameters
 ST   = 0.02;%0.02, 0.04
@@ -50,7 +60,7 @@ resultdir = uigetdir([], 'Select parent folder to save NS-SFR data');
 %choose custom mask if applicable
 [selmsk, mskpath] = uigetfile('./masks/*.mat', 'Select custom ROI mask')
 
-%tic
+tic
 t = {'.png', '.jpg', '.jpeg',...
     '.png', '.tif', '.tiff',...
     '.dcg', '.raw'};
@@ -111,7 +121,7 @@ if size(PNameFolds, 1) ~= 0
             end
             subdirN(2,:) = {'_'};
             name = [subdirN{:}]; % create custom name for each run based on subdirectories
-            nssfr_exp(nextSubDir, name, selmsk, mskpath, resultdir, numWorkers, debug, ST, esfW, ...
+            nssfr_exp(nextSubDir, name, selmsk, mskpath, resultdir, numWorkers, debug, valInval, ST, esfW, ...
                 minEdge, maxEdge, Con, raw, npoly, hfMax, dcheck, sfrv)
             disp(['File List: ' num2str(size(fname, 1))])
             i=i+1;
@@ -136,6 +146,10 @@ if size(PNameFolds, 1) ~= 0
                     isub = [d(:).isdir]; %# returns logical vector
                     nameFolds = {d(isub).name}';
                     nameFolds(ismember(nameFolds,{'.','..'})) = [];
+                end
+                %if negative number for level then end the task.
+                if l < 0
+                    break;
                 end
                 if k < size(nameFolds, 1)
                     subNameFolds = nameFolds;
@@ -170,6 +184,10 @@ if size(PNameFolds, 1) ~= 0
             end
             nextSubDir = [nextSubDir filesep subdir{1,1}];
             l = l + 1;
+            if l > 5
+                disp('Hierarchy too large. Level number should be a maximum of 5')
+                exit();
+            end
         end
     end
 else
@@ -181,7 +199,7 @@ else
     splitSrc = split(selpath, filesep);
     name = splitSrc(end);
     if isImage
-        nssfr_exp(nextSubDir, name, selmsk, mskpath, resultdir, numWorkers, debug, ST, esfW, ...
+        nssfr_exp(nextSubDir, name, selmsk, mskpath, resultdir, numWorkers, debug, valInval, ST, esfW, ...
                     minEdge, maxEdge, Con, raw, npoly, hfMax, dcheck, sfrv)
         disp(['File List: ' num2str(size(fname, 1))])
     end
