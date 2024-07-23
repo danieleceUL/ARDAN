@@ -7,8 +7,8 @@ provided in publicly available automotive datasets for computer vision tasks, th
 ## Rectified KITTI Qualitative Results
 ![rect roi select kitti](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/rect-ROI-select.png)
 
-Note: You may wish to disable the red bounding boxes as they represent potential slanted edge measurement which have been discarded from overall analysis.
-in the 'multi_exp_run.m' change the parameter `valInval=1` to `valInval=0` and proceed as per experiments. The commit files already provide the default position of `valInval=0`.
+Note: You may wish to disable the red bounding boxes as they represent potential slanted edge measurements which have been discarded from overall analysis.
+in the 'multi_exp_run.m' change the parameter `valInval=1` to `valInval=0` and proceed as per instructions. The commit files already provide the default position of `valInval=0`.
 
 ## MTF50 Measurements for Unrectified KITTI vs Rectified KITTI
 <p float="kitti MTF50">
