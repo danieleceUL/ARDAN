@@ -49,7 +49,7 @@ For more information see:
 
 # GPU Acceleration
 
-Current algorithm has GPU hardware accelereation support for 4 workers using parallel pooling.
+Current algorithm has GPU hardware acceleration support for 4 workers using parallel pooling.
 Code automatically detects whether there is GPU/CPU only on system and executes code according to step.
 GPU support recommended for large datasets with 10+ images.
 
