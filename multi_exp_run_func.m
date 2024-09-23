@@ -43,22 +43,11 @@ function multi_exp_run_func(selpath, resultdir, selmsk)
     dcheck = 1;
     
     sfrv = 'sfrmat5';
-    
-    % Select folder for parent directory with multiple subdirectories.
-    %selpath = uigetdir([], 'Select folder containing image dataset');
 
-    %selpath = isstring(selpath);
     d = dir(selpath)
     isub = [d(:).isdir]; %# returns logical vector
     nameFolds = {d(isub).name}';
     nameFolds(ismember(nameFolds,{'.','..'})) = [];
-    
-    % Create experiment folder to save NS-SFR data
-    %resultdir = uigetdir([], 'Select parent folder to save NS-SFR data');
-    %resultdir = isstring(resultdir);
-    %choose custom mask if applicable
-    %[selmsk, mskpath] = uigetfile('./masks/*.mat', 'Select custom ROI mask')
-    %selmsk = isstring(selmsk);
 
     mskpath = './masks/';
     
