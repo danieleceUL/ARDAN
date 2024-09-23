@@ -5,7 +5,7 @@
 # The script will create a new directory called combination in the passed directory and
 # copy the horizontal and vertical csv files from each run into the combination directory.
 # The script will then concatenate the horizontal and vertical csv files into a single file
-# Author: Daniel Jakab, 18th July 2024
+# Author: Daniel Jakab, 18th July 2024, University of Limerick
 PASSED=$1
 if [[ ! -d $PASSED ]]; then
     echo "$PASSED is not a directory"

@@ -149,7 +149,7 @@ function nssfr_exp(selpath, exp_name, selmsk, mskpath, resultdir, numWorkers, de
     
             if ~isempty(ROIsH_mat)
                 set(0, 'currentfigure', f1);
-                imshow(rot90(img)) % BD- printing using green rectangles ROIs
+                imshow(rot90(img)) % printing using green rectangles ROIs
                 hold on
                 [h,~] = size(ROIsH_mat);
                 for k = 1 : h
@@ -181,7 +181,7 @@ function nssfr_exp(selpath, exp_name, selmsk, mskpath, resultdir, numWorkers, de
             if ~isempty(ROIsV_mat)
                 [h,w] = size(ROIsV_mat);
                 set(0, 'currentfigure', f2);
-                imshow(img) %BD - printing using green rectangles ROIs
+                imshow(img) %printing using green rectangles ROIs
                 hold on
                 for k = 1 : h
                     if ROIsV_mat(k,3)<2 || ROIsV_mat(k,4)<2
@@ -209,7 +209,6 @@ function nssfr_exp(selpath, exp_name, selmsk, mskpath, resultdir, numWorkers, de
                 case 2
                     R = cell(size(ROIsV,1), 8);
                     r = ROIsV;
-                    %imgLin=imgLin;
             end
             for a = 1:size(R,1)
                 if ~isempty(r{a,1})
@@ -261,9 +260,6 @@ function nssfr_exp(selpath, exp_name, selmsk, mskpath, resultdir, numWorkers, de
                             hfArea = trapz((0.5:0.01:1), fMag);
     
                             %apply addition constraints to results
-                            %[nmax,maxAt,maxValues,nmin,minAt,minValues, minAtIdx, maxAtIdx] = peakFinder(f,uq);
-                            %y_min = interp1(uq, f, minAt);
-                            %y_max = interp1(uq, f, maxAt);
                             [nmax_c,maxAt_c,maxValues_c,nmin_c,minAt_c,minValues_c, minAtIdx_c, maxAtIdx_c] = peakFinder(mq,uq);
                             y_min_c = interp1(uq, mq, minAt_c);
                             y_max_c = interp1(uq, mq, maxAt_c);
@@ -407,7 +403,7 @@ function nssfr_exp(selpath, exp_name, selmsk, mskpath, resultdir, numWorkers, de
                                         NSSFRh = R;
                                         
                                         b = ROIsH{a,4};
-                                        % BD: re-orientate horizontal
+                                        % re-orientate horizontal
                                         % coordinates for consistency
                                         temp = zeros(1,4);
                                         temp(1) = cols - b(2) - b(4);

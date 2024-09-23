@@ -1,3 +1,7 @@
+# Splitting up of a large dataset into several sub-directories using a given ratio.
+# Please see the README document for more information about usage.
+
+# Created by D. Jakab 2024, University of Limerick
 import os, os.path
 import shutil
 from tkinter import Tk
