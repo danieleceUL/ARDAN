@@ -2,11 +2,9 @@
 %   Date: 25/03/2023
 %   Name: Daniel Jakab
 %   Description: Execute SFR ROI Analysis for multiple directory outputs
+%   University of Limerick
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%% select input file to read
-%selpath = uigetdir([], 'Select parent folder containing a single/multiple outputs');
 function multi_exp_analysis_func(selpath)
     %expected CSV files
     fh = 'horizontal.csv';
