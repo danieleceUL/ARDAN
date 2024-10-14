@@ -1,3 +1,7 @@
+% An extraction of MTF50 values from a heatmap in a MATLAB figure, saved as a CSV file where all MTF50 values.
+% Are printed out on MATLAB command line.
+
+% Created by D. Jakab 2024, University of Limerick
 close all;
 clear all;
 clc;
