@@ -1,6 +1,23 @@
 # ARDÁN: Automotive Radial Distortion Analysis for Camera Quality
 Measuring optical quality in camera lenses is a crucial step in evaluating cameras, especially for safety-critical visual perception tasks in automotive driving. While ground-truth labels and annotations are
 provided in publicly available automotive datasets for computer vision tasks, there is a lack of information on the image quality of camera lenses used for data collection. To compensate for this, we propose an Automated Reference-free Defocus characterization for Automotive Near-field cameras (ARDÁN) to evaluate Slanted Edges for ISO12233 in five publicly available automotive datasets using a valid and invalid region of interest (ROI) selection system in natural scenes. We use the mean of 50% of the Modulation Transfer Function (MTF50) in three Camera Radii (CaRa) segments and the Overall Spread in Heatmaps(O’SHea) for an 8×5 distribution to evaluate the quality of edges in natural scenes. From the experiments performed, lenses with uniform spatial domains (i.e. little distortion) showed that MTF50 was constant between (0.18 0.25cy/px). With image rectification on the same scenes, MTF50 results artificially increased, no longer representing the camera lens. In contrast, for strong radial distortion, MTF50 varied extensively across the spatial domain between (0.12-0.4cy/px) where in particular Woodscape gave the highest average of MTF50 per region for natural scenes.
+## Paper
+It would be appreciated if a reference to the official paper, for which this package was originally built, is included whenever this code is used for a publication:
+```rb
+    @article{jakab2024ardan,
+        title={ARD{\'A}N: Automated Reference-free Defocus Characterization for Automotive Near-field Cameras},
+        author={Jakab, Daniel and Grua, Eoin Martino and Mohandas, Reenu and Deegan, Brian Michael and Scanlan, Anthony and Molloy, Dara and Ward, Enda and Eising, Ciar{\'a}n},
+        journal={IEEE Access},
+        year={2024},
+        publisher={IEEE}
+    }
+```
+Please also refer to previous work from Zwanenberg et al. with regards to the NS-SFR component of the ARDÁN platform in the link below: 
+- [NS-SFR GUI](https://github.com/OlivervZ11/NSSFR-GUI)
+
+Please also refer to sfrmat5 the 5th version of the Slanted Edge Method originally created by Burns et al.: 
+- [sfrmat5](http://burnsdigitalimaging.com/software/sfrmat/iso12233-sfrmat5/)
+
 # Sample Region of Interest (ROI) Selection on KITTI
 ## Original KITTI Qualitative Results
 ![unr roi select kitti](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/unr-ROI-select.png)
@@ -40,11 +57,7 @@ After Data Convexity is applied to measurements:
 ![af mtf convexity](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/images/00000_FV_NS_SFR_Horizontal_SFR_data_convex.jpg)
 
 # Regional Mask Lens Alignment(RMLA)
-![rmla](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/masks/sample-rmla.PNG)
-
-For more information see:
-- [NS-SFR GUI](https://github.com/OlivervZ11/NSSFR-GUI)
-- [sfrmat5](http://burnsdigitalimaging.com/software/sfrmat/iso12233-sfrmat5/)
+![rmla](https://github.com/danieleceUL/adaptive_nssfr_sfrmat5/blob/main/masks/sample-rmla.png)
 
 
 # GPU Acceleration
