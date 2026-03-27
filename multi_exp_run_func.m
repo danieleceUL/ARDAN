@@ -6,11 +6,7 @@
 %   Maximum Hierarchy structure accepted:
 %   Level 0/
 %       Level 1/
-%           Level 2/
-%               Level 3/
-%                   Level 4/
-%                       Level 5/
-%                           *.png/jpg/jpeg/tif/tiff/dcg/raw
+%            *.png/jpg/jpeg/tif/tiff/dcg/raw
 %   With one Subdirectory acting as a multi-environment.
 %   Copyright (c) 2023 D. Jakab
 %   UNIVERSITY OF Limerick PhD Research
