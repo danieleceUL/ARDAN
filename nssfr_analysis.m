@@ -4,7 +4,9 @@
 %   Description: Function with NS-SFR ROI Analysis with the extracted
 %                horizontal and vertical edge data. Generates MTF plots,
 %                heatmaps and statistical analsysis
-%   University of Limerick
+%   Copyright (c) 2023 D. Jakab
+%   UNIVERSITY OF Limerick PhD Research
+%              - D2ICE Research Group
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function nssfr_analysis(selpath, tt_img, dataH, dataV)
