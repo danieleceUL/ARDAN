@@ -1,3 +1,15 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   Date: 15/11/2023
+%   Name: Daniel Jakab
+%   Description: SFR ROI Extraction and measurement proposal - initial basis
+%                for the 'nssfr_exp' function. This can only be used for one
+%                directory with the images taken from the same recording
+%                camera.
+%   Copyright (c) 2024 D. Jakab
+%   UNIVERSITY OF Limerick PhD Research
+%              - D2ICE Research Group
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 clear all;
 close all;
 clc;
