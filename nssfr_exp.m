@@ -3,7 +3,9 @@
 %   Name: Daniel Jakab
 %   Description: Function call applying the ARDÁN technique to filtered
 %                regions of the images with the NS-SFR Slanted Edge Method
-%   University of Limerick
+%   Copyright (c) 2023 D. Jakab
+%   UNIVERSITY OF Limerick PhD Research
+%              - D2ICE Research Group
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
