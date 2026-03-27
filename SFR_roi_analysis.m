@@ -1,3 +1,15 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   Date: 22/09/2023
+%   Name: Daniel Jakab
+%   Description: SFR ROI Analysis - initial basis for the 'nssfr_analysis'
+%                function. This can only be used for one directory
+%                containing set of CSV files and must be used only after
+%                'SFR_roi_Proposal.m' has been performed successfully.
+%   Copyright (c) 2024 D. Jakab
+%   UNIVERSITY OF Limerick PhD Research
+%              - D2ICE Research Group
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 clear variables
 close all
 clc
