@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%   Date: 2024
+%   Date: 26/03/2024
 %   Name: Daniel Jakab
 %   Description: Assigns an index to all extracted data points in NS-SFR
 %                analysis.
