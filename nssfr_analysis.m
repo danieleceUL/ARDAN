@@ -61,22 +61,16 @@ function nssfr_analysis(selpath, tt_img, dataH, dataV)
     MTFidxV = zeros(1,size(dataV,1));
     
     RDseg = 4; % number of radial segments to split up domain
-    %ROImask = imageDatastore([selpath filesep 'ROIMask.jpg']);
-    %numWorkers = 4;
-    
-    %ROImask = imread([selpath filesep 'ROIMask.png']);
     roi = load([selpath filesep 'roi.mat']);
     if isempty(tt_img)
         tt_img = ROImask;
     end
     
-    %[Rad, RD] = RadAnnuli(MTF_Results{1, 2} , RDseg); % DJ replace with own tailored RadDist/annuli
     [Rad, RD] = RadAnnuli_custom(RDseg, roi, tt_img);
     
     %divide spatial domain up into grid segments
     rec_x = size(tt_img,2)/nx;
     rec_y = size(tt_img,1)/ny;
-    %[X,Y] = meshgrid(1:1:8, 1:1:5);
     
     rad_gray = mat2gray(RD);
     
@@ -220,8 +214,6 @@ function nssfr_analysis(selpath, tt_img, dataH, dataV)
         idx = getIndex(nx,ny,cols,rows,xpt,ypt);
         MTFidxV(i) = idx;
     end
-    %legend(legendUnq(h), 'Location', 'southoutside', 'Orientation','horizontal',...
-    %    'Box','off', 'FontSize', 5)
     
     set(gca, 'YDir','reverse') % flip Y axis
     xlim([0 cols])
@@ -255,8 +247,6 @@ function nssfr_analysis(selpath, tt_img, dataH, dataV)
         for j = 1:nx
             idx = sub2ind([nx, ny], j, i);
             MTFbin = mean(MTFdataH(MTFidxH==idx,:));
-            %MTFbin_l = mean(H_locations(MTFidxH==idx,:));
-            %[xpt,ypt] = MTFbin_l(1:2);
             xpt = (xrange(j) + rec_x/2);
             ypt = (yrange(i) + rec_y/2);
             c='m';
@@ -314,8 +304,6 @@ function nssfr_analysis(selpath, tt_img, dataH, dataV)
     plot(MTFc_l(:,1), MTFc_l(:,2), 'g.', 'DisplayName', 'centre', LineWidth=4)
     plot(MTFm_l(:,1), MTFm_l(:,2), 'b.', 'DisplayName', 'middle', LineWidth=4)
     plot(MTFe_l(:,1), MTFe_l(:,2), 'r.', 'DisplayName', 'edge', LineWidth=4)
-    %legend(legendUnq(h), 'Location', 'southoutside', 'Orientation','horizontal',...
-    %    'Box','off', 'FontSize', 5)
     set(gca, 'YDir','reverse') % flip Y axis
     xlim([0 cols])
     ylim([0 rows])
@@ -476,12 +464,6 @@ function nssfr_analysis(selpath, tt_img, dataH, dataV)
             writematrix(countVGrid,[selpath filesep [VNumPointsPerGrid '.csv']])
             writematrix(countHGrid,[selpath filesep [HNumPointsPerGrid '.csv']])
         end
-%         if contains(FigName, {hMpMTF50hName, hMpMTF50vName})
-%             hMp = gca;
-%             hMp = hMp.ColorData;
-%             hMp(isnan(hMp)) = 0;
-%             writematrix(hMp,[selpath filesep FigName '.csv'])
-%         end
     end
     clear all;
     close all;
