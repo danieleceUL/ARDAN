@@ -2,7 +2,9 @@
 %   Date: 25/03/2023
 %   Name: Daniel Jakab
 %   Description: Execute SFR ROI Analysis for multiple directory outputs
-%   University of Limerick
+%   Copyright (c) 2023 D. Jakab
+%   UNIVERSITY OF Limerick PhD Research
+%              - D2ICE Research Group
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function multi_exp_analysis_func(selpath)
