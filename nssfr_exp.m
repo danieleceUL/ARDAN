@@ -1,3 +1,12 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   Date: 25/03/2023
+%   Name: Daniel Jakab
+%   Description: Function call applying the ARDÁN technique to filtered
+%                regions of the images with the NS-SFR Slanted Edge Method
+%   University of Limerick
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %% read in image files
 % Read image file names from user Folder
 function nssfr_exp(selpath, exp_name, selmsk, mskpath, resultdir, numWorkers, debug, valInval, ST, esfW, ...
@@ -22,17 +31,7 @@ function nssfr_exp(selpath, exp_name, selmsk, mskpath, resultdir, numWorkers, de
     %initialize default
     %get test image
     tt_img = imread(fullfile(imFiles(1).folder, imFiles(1).name));
-    %if contains(imFiles(1).name, 'FV')
-    %    pers = 'FV';
-    %elseif contains(imFiles(1).name, 'MVL')
-    %    pers = 'MVL';
-    %elseif contains(imFiles(1).name, 'MVR')
-    %    pers = 'MVR';
-    %elseif contains(imFiles(1).name, 'RV')
-    %    pers = 'RV';
-    %else
     pers = exp_name; % give name of subdirectory
-    %end
     
     if selmsk == 0
         %imshow(tt_img);
