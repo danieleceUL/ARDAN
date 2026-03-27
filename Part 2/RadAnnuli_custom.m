@@ -19,15 +19,6 @@ function [R, RD] = RadAnnuli_custom(num, roi, tt_img)
 
 % Set radius list (one less to avoid outermost segment - aperture)
 R = zeros(1,(num-1));
-%try
-%    % try freehand ROI assignment
-%    fprintf('Freehand ROI Mask detected.\n');
-%    mask = roi.roi;
-%    rect_flag = 0;
-%catch
-%use rectangular ROI assignment as default option
-%fprintf('Freehand ROI Mask not detected, using rectangular ROI instead.\n');
-% Get rectangle position [x y width height]
 pos = roi.roi.Position;
 x = pos(1);
 y = pos(2);
@@ -43,11 +34,8 @@ rectCoords = [
     x,     y       % Close the loop
 ];
 mask = poly2mask(rectCoords(:,1), rectCoords(:,2), size(tt_img,1), size(tt_img,2));
-%rect_flag = 1;
-%end
 ml = logical(mask);
 A = bwarea(mask);
-%a = A/num;
 [Y, X] = size(mask);
 % im centure
 y_c = round(Y/2);
@@ -68,15 +56,6 @@ ylim([0 Y])
 % Compute the Euclidean Distance Transform of ROI mask
 if any(ml ~= 1, 'all')
     fprintf('Freehand ROI Mask detected.\n');
-    % Convert ROI mask into polygon
-    %mask = poly2mask(pos(:,1), pos(:,2), size(tt_img,1), size(tt_img,2));
-    %create polygon from freehand ROI
-    %P = mask2poly(logical(mask));
-    P = roi.roi.Position;
-    %P = mask2poly(mask);
-    %pgon = polyshape(P.X, P.Y);
-    %x = P.X;
-    %y = P.Y;
     x = P(:,1);
     y = P(:,2);
     %find maximum euclidean distance (from furthest edge to centre)
@@ -89,7 +68,6 @@ else
 end
 p3.YDir = 'reverse';
 radius = distanceFromEdge;
-%viscircles(p3, [x_c, y_c], radius);
 R(1,(num-1)) = radius;
 
 % Display circles over edt image.
