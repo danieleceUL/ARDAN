@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%   Date: 25/03/2023
+%   Date: 15/11/2023
 %   Name: Daniel Jakab
 %   Description: Function call applying the ARDÁN technique to filtered
 %                regions of the images with the NS-SFR Slanted Edge Method
