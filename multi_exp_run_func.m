@@ -8,7 +8,7 @@
 %       Level 1/
 %            *.png/jpg/jpeg/tif/tiff/dcg/raw
 %   With one Subdirectory acting as a multi-environment.
-%   Copyright (c) 2023 D. Jakab
+%   Copyright (c) 2024 D. Jakab
 %   UNIVERSITY OF Limerick PhD Research
 %              - D2ICE Research Group
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
