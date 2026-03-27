@@ -12,7 +12,7 @@ function [R, RD] = RadAnnuli_custom(num, roi, tt_img)
 %   RD       Segmented frame 
 %   
 % Copyright (c) 2023 D. Jakab
-% UNIVERSITY OF Limerick PhD Reserch
+% UNIVERSITY OF Limerick PhD Research
 %              - D2ICE Research Group
 
 % Image area per segment
