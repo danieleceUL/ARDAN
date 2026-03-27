@@ -1,3 +1,12 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   Date: 25/03/2023
+%   Name: Daniel Jakab
+%   Description: Functions with NS-SFR ROI Analysis with the extracted
+%                horizontal and vertical edge data. Generates MTF plots,
+%                heatmaps and statistical analsysis
+%   University of Limerick
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function nssfr_analysis(selpath, tt_img, dataH, dataV)
     addpath('post-processing/') % add path to post-processing files
     set(0, 'DefaultFigureVisible', 'off');
