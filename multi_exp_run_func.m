@@ -44,11 +44,6 @@ function multi_exp_run_func(selpath, resultdir, selmsk)
     dcheck = 1;
     
     sfrv = 'sfrmat5';
-
-    %d = dir(selpath)
-    %isub = [d(:).isdir]; %# returns logical vector
-    %nameFolds = {d(isub).name}';
-    %nameFolds(ismember(nameFolds,{'.','..'})) = [];
     tic
     
     subdirs = dir(selpath);
@@ -73,7 +68,6 @@ function iterateDirectory(selpath, folderPath, resultdir, selmsk, numWorkers, ..
     disp(folderPath)
     subDirPath = [selpath filesep folderPath.name] 
     items = dir(subDirPath);
-    %items(ismember(items,{'.','..'})) = [];
     disp(items)
     
     t = {'.png', '.jpg', '.jpeg',...
