@@ -19,7 +19,32 @@ function [R, RD] = RadAnnuli_custom(num, roi, tt_img)
 
 % Set radius list (one less to avoid outermost segment - aperture)
 R = zeros(1,(num-1));
-mask = roi.h;
+%try
+%    % try freehand ROI assignment
+%    fprintf('Freehand ROI Mask detected.\n');
+%    mask = roi.roi;
+%    rect_flag = 0;
+%catch
+%use rectangular ROI assignment as default option
+%fprintf('Freehand ROI Mask not detected, using rectangular ROI instead.\n');
+% Get rectangle position [x y width height]
+pos = roi.roi.Position;
+x = pos(1);
+y = pos(2);
+w = pos(3);
+h = pos(4);
+
+% Define rectangle corners in order (closed polygon)
+rectCoords = [
+    x,     y;
+    x+w,   y;
+    x+w,   y+h;
+    x,     y+h;
+    x,     y       % Close the loop
+];
+mask = poly2mask(rectCoords(:,1), rectCoords(:,2), size(tt_img,1), size(tt_img,2));
+%rect_flag = 1;
+%end
 ml = logical(mask);
 A = bwarea(mask);
 %a = A/num;
@@ -42,16 +67,23 @@ ylim([0 Y])
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Compute the Euclidean Distance Transform of ROI mask
 if any(ml ~= 1, 'all')
+    fprintf('Freehand ROI Mask detected.\n');
     % Convert ROI mask into polygon
-    P = mask2poly(logical(mask));
-    pgon = polyshape(P.X, P.Y);
-    x = P.X;
-    y = P.Y;
+    %mask = poly2mask(pos(:,1), pos(:,2), size(tt_img,1), size(tt_img,2));
+    %create polygon from freehand ROI
+    %P = mask2poly(logical(mask));
+    P = roi.roi.Position;
+    %P = mask2poly(mask);
+    %pgon = polyshape(P.X, P.Y);
+    %x = P.X;
+    %y = P.Y;
+    x = P(:,1);
+    y = P(:,2);
     %find maximum euclidean distance (from furthest edge to centre)
     distanceFromEdge = max(sqrt((xCenter-x).^2 + (yCenter-y).^2));
     plot(x, y, 'r-', 'LineWidth' , 3, 'MarkerSize', 30);
-    %legend('ROImask', 'FontSize', 10)
 else
+    fprintf('Rectangular ROI Mask detected.\n');
     %no mask present
     distanceFromEdge = sqrt((xCenter-X).^2 + (yCenter-Y).^2);
 end

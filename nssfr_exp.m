@@ -22,17 +22,17 @@ function nssfr_exp(selpath, exp_name, selmsk, mskpath, resultdir, numWorkers, de
     %initialize default
     %get test image
     tt_img = imread(fullfile(imFiles(1).folder, imFiles(1).name));
-    if contains(imFiles(1).name, 'FV')
-        pers = 'FV';
-    elseif contains(imFiles(1).name, 'MVL')
-        pers = 'MVL';
-    elseif contains(imFiles(1).name, 'MVR')
-        pers = 'MVR';
-    elseif contains(imFiles(1).name, 'RV')
-        pers = 'RV';
-    else
-        pers = exp_name; % give name of subdirectory
-    end
+    %if contains(imFiles(1).name, 'FV')
+    %    pers = 'FV';
+    %elseif contains(imFiles(1).name, 'MVL')
+    %    pers = 'MVL';
+    %elseif contains(imFiles(1).name, 'MVR')
+    %    pers = 'MVR';
+    %elseif contains(imFiles(1).name, 'RV')
+    %    pers = 'RV';
+    %else
+    pers = exp_name; % give name of subdirectory
+    %end
     
     if selmsk == 0
         %imshow(tt_img);
@@ -42,8 +42,22 @@ function nssfr_exp(selpath, exp_name, selmsk, mskpath, resultdir, numWorkers, de
         disp('dataset - no mask selected (using image size as mask)')
         roi = roi.h;
     else
-        roi = load([mskpath filesep selmsk]);
-        roi = roi.h;
+        if contains(imFiles(1).name, 'FV')
+            roi = load(['./masks/FV_roi_wood.mat']);
+            roi = roi.h;
+        elseif contains(imFiles(1).name, 'MVL')
+            roi = load(['./masks/MVL_roi_wood.mat']);
+            roi = roi.h;
+        elseif contains(imFiles(1).name, 'MVR')
+            roi = load(['./masks/MVR_roi_wood.mat']);
+            roi = roi.h;
+        elseif contains(imFiles(1).name, 'RV')
+            roi = load(['./masks/RV_roi_wood.mat']);
+            roi = roi.h;
+        else
+            roi = load([selmsk]);
+            roi = roi.h;
+        end
     end
     disp(['Number of Detected images = ' num2str(imNumber)]);
     
@@ -650,18 +664,18 @@ function nssfr_exp(selpath, exp_name, selmsk, mskpath, resultdir, numWorkers, de
             end            
         end
         % save debug images
-        f_save = strcat(resultdir,filesep,string(imFiles(A).name(1:end-4)));
+        f_save = strcat(resultdir,filesep,string(imFiles(A).name(1:end-5))); %remove file extension
         if fig_exist(1,1) == 1
-            saveas(f1,fullfile(strcat(f_save,'_H')),'png');
+            saveas(f1,fullfile(strcat(f_save,'_H.png')),'png'); % save as tiff
         end
         if fig_exist(1,2) == 1
-            saveas(f2,fullfile(strcat(f_save,'_V')),'png');
+            saveas(f2,fullfile(strcat(f_save,'_V.png')),'png');
         end
         if fig_exist(1,3) == 1
-            saveas(f3,fullfile(strcat(f_save,'_NS_SFR_Horizontal_SFR')), 'jpg');
+            saveas(f3,fullfile(strcat(f_save,'_NS_SFR_Horizontal_SFR.jpg')), 'jpg');
         end
         if fig_exist(1,4) == 1
-            saveas(f4,fullfile(strcat(f_save,'_NS_SFR_Vertical_SFR')), 'jpg');
+            saveas(f4,fullfile(strcat(f_save,'_NS_SFR_Vertical_SFR.jpg')), 'jpg');
         end
         if ishandle(f1)
             close(f1);

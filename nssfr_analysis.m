@@ -183,9 +183,13 @@ function nssfr_analysis(selpath, tt_img, dataH, dataV)
     
     figs = cell(size(dataV, 1), 1);
     xptt = dataV(:,10);
+    %get maximum xpt value
+    max_xpt = max(xptt);
     yptt = dataV(:,11);
     for i = 1:numel(numMTFsV)
+        %shift up xpt to match image coordinates if needed
         xpt = xptt(i);
+        xpt = xpt + (size(tt_img,2) - max_xpt); % potentially adjust to match image co-ords (TODO: longer-term fix needed)
         ypt = yptt(i);
         xpN = uint8(xpt);
         ypN = uint8(ypt);

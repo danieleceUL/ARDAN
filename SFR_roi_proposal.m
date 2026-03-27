@@ -7,11 +7,11 @@ debug = 1;
 ST   = 0.02;%0.02, 0.04
 % ESF min width for system (pixels) - Change this threshold based on
 % a modeled MTF - pixels for no overlapping ESFs
-esfW = 5; %5,10
+esfW = 10; %5,10
 
 % define the min and max edge length in pixels
 minEdge = 20; %minimum length of an edge
-maxEdge = 128;%maximum length of an edge
+maxEdge = 100;%maximum length of an edge
 
 % define edge contrast
 Con=[0.1, 0.9];
@@ -22,7 +22,7 @@ raw = 0;
 npoly=5;
 
 % set limit on energy above 0.5 cy/px
-hfMax = 0.2;
+hfMax = 0.1;
 
 %use data convexity check
 dcheck = 1;

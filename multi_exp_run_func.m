@@ -22,14 +22,15 @@ function multi_exp_run_func(selpath, resultdir, selmsk)
     ST   = 0.02;%0.02, 0.04
     % ESF min width for system (pixels) - Change this threshold based on
     % a modeled MTF - pixels for no overlapping ESFs
-    esfW = 5; %5,10
+    esfW = 10; %5,10 % set to 10 for more reliable esf extraction
     
     % define the min and max edge length in pixels
     minEdge = 20; %minimum length of an edge
-    maxEdge = 128;%maximum length of an edge
+    maxEdge = 80;%maximum length of an edge (set to 100 for more vertical MTF measurements)
+                %Woodscape set to 80 to avoid long edges from trees (distortion tends to reduce data)
     
     % define edge contrast
-    Con=[0.1, 0.9];
+    Con=[0.1, 0.9]; % [min, max] contrast for edge selection
     
     % set raw flag to zero for now
     raw = 0;
@@ -37,7 +38,7 @@ function multi_exp_run_func(selpath, resultdir, selmsk)
     npoly=5;
     
     % set limit on energy above 0.5 cy/px
-    hfMax = 0.2;
+    hfMax = 0.1; %set a lower limit of 0.2 cy/px for hf energy
     
     %use data convexity check
     dcheck = 1;
@@ -72,7 +73,7 @@ function iterateDirectory(selpath, folderPath, resultdir, selmsk, numWorkers, ..
     disp(folderPath)
     subDirPath = [selpath filesep folderPath.name] 
     items = dir(subDirPath);
-    items(ismember(items,{'.','..'})) = [];
+    %items(ismember(items,{'.','..'})) = [];
     disp(items)
     
     t = {'.png', '.jpg', '.jpeg',...
