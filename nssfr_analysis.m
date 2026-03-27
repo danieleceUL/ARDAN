@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %   Date: 25/03/2023
 %   Name: Daniel Jakab
-%   Description: Functions with NS-SFR ROI Analysis with the extracted
+%   Description: Function with NS-SFR ROI Analysis with the extracted
 %                horizontal and vertical edge data. Generates MTF plots,
 %                heatmaps and statistical analsysis
 %   University of Limerick
