@@ -4,7 +4,7 @@
 %   Description: Function with NS-SFR ROI Analysis with the extracted
 %                horizontal and vertical edge data. Generates MTF plots,
 %                heatmaps and statistical analsysis
-%   Copyright (c) 2023 D. Jakab
+%   Copyright (c) 2024 D. Jakab
 %   UNIVERSITY OF Limerick PhD Research
 %              - D2ICE Research Group
 %
