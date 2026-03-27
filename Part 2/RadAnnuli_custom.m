@@ -11,7 +11,7 @@ function [R, RD] = RadAnnuli_custom(num, roi, tt_img)
 %   R        The Radius of each Annuli
 %   RD       Segmented frame 
 %   
-% Copyright (c) 2023 D. Jakab
+% Copyright (c) 2024 D. Jakab
 % UNIVERSITY OF Limerick PhD Research
 %              - D2ICE Research Group
 
