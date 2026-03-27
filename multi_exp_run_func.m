@@ -12,6 +12,7 @@
 %                       Level 5/
 %                           *.png/jpg/jpeg/tif/tiff/dcg/raw
 %   With one Subdirectory acting as a multi-environment.
+%   University of Limerick
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function multi_exp_run_func(selpath, resultdir, selmsk)
     numWorkers = 4;
