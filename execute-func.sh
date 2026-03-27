@@ -11,7 +11,6 @@ else
     
 fi
 
-#if [ ! "$selmsk" -eq 0 ]; then
 if [ -f "$selmsk" ]; then
     echo "$selmsk is a valid .mat file"
     func="multi_exp_run_func('$selpath','$resultdir','$selmsk')"
@@ -20,6 +19,5 @@ else
     echo "No mask file provided, proceeding without mask."
     func="multi_exp_run_func('$selpath','$resultdir',$selmsk)"
 fi
-#fi
 
 matlab -nodisplay -nosplash -r $func
